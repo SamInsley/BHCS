@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Broadway Horticultural & Craft Show</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="brand">
+        <div class="title">Broadway Horticultural & Craft Show</div>
+        <div class="subtitle">Community show celebrating gardening & crafts</div>
+      </div>
+
+      <nav class="nav">
+        <a class="navlink" href="index.html">Home</a>
+        <a class="navlink" href="about.html">About</a>
+        <a class="navlink" href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1>Welcome</h1>
+      <p>Welcome to the Broadway Horticultural & Craft Show website.</p>
+      <p><b>Date:</b> (add date) &nbsp; | &nbsp; <b>Location:</b> (add location)</p>
+    </section>
+
+    <section class="card">
+      <h2>What to expect</h2>
+      <ul>
+        <li>Horticultural exhibits & judging</li>
+        <li>Craft stalls & local makers</li>
+        <li>Refreshments</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      © <span id="year"></span> Broadway Horticultural & Craft Show
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
