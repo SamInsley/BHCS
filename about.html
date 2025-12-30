@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About | Broadway Horticultural & Craft Show</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="brand">
+        <div class="title">Broadway Horticultural & Craft Show</div>
+        <div class="subtitle">Community show celebrating gardening & crafts</div>
+      </div>
+
+      <nav class="nav">
+        <a class="navlink" href="index.html">Home</a>
+        <a class="navlink" href="about.html">About</a>
+        <a class="navlink" href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1>About the Show</h1>
+      <p>
+        The Broadway Horticultural & Craft Show is a community-run event celebrating
+        gardening, crafts, and local creativity.
+      </p>
+      <p>
+        Add a short history here, who runs it, and what visitors and exhibitors can expect.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      © <span id="year"></span> Broadway Horticultural & Craft Show
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
