@@ -85,8 +85,8 @@ body{
 
 .team-member img{
   width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
+  height: 160px;          /* controls size */
+  object-fit: cover;     /* crops instead of stretching */
   border-radius: 12px;
   border: 1px solid var(--border);
 }
