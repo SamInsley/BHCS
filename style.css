@@ -230,9 +230,8 @@ a:hover{ opacity: 0.9; }
 }
 
 .hero-logo{
-  width: 100%;
-  max-width: 800px;   /* increase this to make it bigger */
-  height: auto;
+  height: 220px;      /* THIS is the size control */
+  width: auto;
   display: block;
   margin: 0 auto;
 }
@@ -245,6 +244,3 @@ a:hover{ opacity: 0.9; }
   letter-spacing: 0.4px;
 }
 
-.hero-frame{
-  max-width: 1000px;
-}
