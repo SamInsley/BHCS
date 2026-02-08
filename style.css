@@ -4,7 +4,7 @@
   --header:#0b1a0b;      /* darker header */
   --card:#141f14;        /* dark card panels */
   --border:#2c3a2c;
-  --accent:#4f8f2f;     /* logo green */
+  --accent:#76b85a;     /* logo green */
 }
 
 *{ box-sizing:border-box; }
@@ -105,7 +105,7 @@ body{
 }
 
 .logo{
-  height:56px;
+  height:70px;
   width:auto;
 }
 
