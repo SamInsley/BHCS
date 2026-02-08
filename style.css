@@ -270,18 +270,19 @@ a:hover{ opacity: 0.9; }
 }
 
 @media (max-width: 600px){
-  .hero-frame img{
-    height: 160px;     /* adjust if needed */
-    max-width: 90vw;   /* prevents overflow */
-  }
-
-  .hero-frame{
-    padding: 20px 18px;
-  }
-}
-
-@media (max-width: 600px){
+  /* Reduce banner height on mobile */
   .hero{
-    min-height: 280px;
+    min-height: 220px;
+  }
+
+  /* Pull the frame in tighter */
+  .hero-frame{
+    padding: 16px 14px;
+  }
+
+  /* Optional: nudge content slightly upward */
+  .hero-content{
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
