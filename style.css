@@ -29,22 +29,6 @@ body{
   padding: 0 18px;
 }
 
-@media (max-width: 600px){
-  .hero-frame img{
-    height: 160px;     /* adjust if needed */
-    max-width: 90vw;   /* prevents overflow */
-  }
-
-  .hero-frame{
-    padding: 20px 18px;
-  }
-}
-
-@media (max-width: 600px){
-  .hero{
-    min-height: 280px;
-  }
-}
 /* Header */
 .header{
   position: sticky;
@@ -283,4 +267,21 @@ a:hover{ opacity: 0.9; }
   font-weight: 700;
   color: var(--muted);
   margin-bottom: 10px;
+}
+
+@media (max-width: 600px){
+  .hero-frame img{
+    height: 160px;     /* adjust if needed */
+    max-width: 90vw;   /* prevents overflow */
+  }
+
+  .hero-frame{
+    padding: 20px 18px;
+  }
+}
+
+@media (max-width: 600px){
+  .hero{
+    min-height: 280px;
+  }
 }
