@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stall Application | Broadway Horticultural & Craft Show</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <div class="brand">
+      <img src="images/logo.png" alt="Broadway Horticultural & Craft Show logo" class="logo">
+      <div class="brand-text">
+        <div class="title">Broadway Horticultural & Craft Show</div>
+        <div class="subtitle">Community show celebrating gardening & crafts</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="navlink" href="index.html">Home</a>
+      <a class="navlink" href="about.html">About</a>
+      <a class="navlink" href="gallery.html">Gallery</a>
+      <a class="navlink" href="stall.html">Stall Application</a>
+      <a class="navlink" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h1>Stall Application</h1>
+
+    <p>
+      If you would like to apply for a stall at the Broadway Horticultural & Craft Show,
+      please download and complete the application form below.
+    </p>
+
+    <ul>
+      <li>
+        <a href="Documents/Stall Application Form.docx" download>
+          Stall Application Form (Word)
+        </a>
+      </li>
+      <li>
+        <a href="Documents/Stall Application Form.pdf" download>
+          Stall Application Form (PDF)
+        </a>
+      </li>
+    </ul>
+
+    <p>
+      Completed forms should be returned using the contact details provided on the form.
+    </p>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <span id="year"></span> Broadway Horticultural & Craft Show
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
