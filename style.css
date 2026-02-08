@@ -230,10 +230,11 @@ a:hover{ opacity: 0.9; }
 }
 
 .hero-logo{
-  max-width: 420px;   /* BIGGER */
-  width: 90%;
+  width: 100%;
+  max-width: 800px;   /* increase this to make it bigger */
   height: auto;
-  margin-bottom: 16px;
+  display: block;
+  margin: 0 auto;
 }
 
 .hero-meta{
