@@ -270,19 +270,25 @@ a:hover{ opacity: 0.9; }
 }
 
 @media (max-width: 600px){
-  /* Reduce banner height on mobile */
+
+  /* Let the banner be shorter */
   .hero{
     min-height: 220px;
   }
 
-  /* Pull the frame in tighter */
+  /* Frame stays inside the viewport */
   .hero-frame{
-    padding: 16px 14px;
+    max-width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
   }
 
-  /* Optional: nudge content slightly upward */
-  .hero-content{
-    padding-top: 0;
-    padding-bottom: 0;
+  /* Logo behaves like a normal responsive image */
+  .hero-frame img{
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
   }
+
 }
