@@ -301,3 +301,22 @@ a:hover{ opacity: 0.9; }
   border-bottom: 2px solid #e5e5e5;
   padding-bottom: 6px;
 }
+.stall-socials {
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.stall-socials a {
+  text-decoration: none;
+  color: #2f5e2f;
+  font-weight: 500;
+}
+
+.stall-socials a:hover {
+  text-decoration: underline;
+}
+
+.stall-socials span {
+  margin: 0 8px;
+  color: #888;
+}
