@@ -292,3 +292,12 @@ a:hover{ opacity: 0.9; }
   }
 
 }
+.card h3 {
+  margin-top: 35px;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2f5e2f;
+  border-bottom: 2px solid #e5e5e5;
+  padding-bottom: 6px;
+}
