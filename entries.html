@@ -5,6 +5,138 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Enter the Show | Broadway Horticultural & Craft Show</title>
   <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body {
+      background: #f4faf3;
+    }
+
+    .entry-page {
+      margin-top: 2rem;
+      margin-bottom: 3rem;
+      background: white;
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    }
+
+    .entry-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #102015;
+    }
+
+    .entry-hero p {
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .class-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .class-btn {
+      border: 2px solid;
+      border-radius: 999px;
+      padding: 0.85rem 1.3rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: white;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .class-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .flowers {
+      color: #4f8a2f;
+      border-color: #9ac77c;
+      background: #f0faeb;
+    }
+
+    .veg {
+      color: #d65f00;
+      border-color: #f2a46f;
+      background: #fff1e7;
+    }
+
+    .entry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .entry-card {
+      background: #fbfdf9;
+      border: 1px solid #e2eadf;
+      border-radius: 18px;
+      padding: 1.5rem;
+    }
+
+    .entry-card h2 {
+      margin-top: 0;
+      color: #102015;
+    }
+
+    #entryList {
+      padding-left: 1.2rem;
+      line-height: 1.8;
+      font-weight: 600;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    form input {
+      display: block;
+      width: 100%;
+      margin-top: 0.35rem;
+      padding: 0.8rem;
+      border-radius: 12px;
+      border: 1px solid #ccd8c8;
+      font-size: 1rem;
+    }
+
+    .submit-btn {
+      background: #2f5d34;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background: #244828;
+    }
+
+    #confirmation {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      background: #edf8e8;
+      color: #2f5d34;
+      font-weight: 700;
+    }
+
+    @media (max-width: 800px) {
+      .entry-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -21,51 +153,57 @@
   </div>
 </header>
 
-<main class="container">
+<main class="container entry-page">
 
-  <section class="hero">
+  <section class="entry-hero">
     <h1>Enter the Flower Show</h1>
     <p>Select the classes you would like to enter, then submit your details.</p>
   </section>
 
-  <section class="card">
-    <h2>Classes</h2>
+  <section class="entry-card">
+    <h2>Choose Your Classes</h2>
 
-    <button type="button" onclick="addEntry('A1')">Add A1</button>
-    <button type="button" onclick="addEntry('A2')">Add A2</button>
+    <div class="class-buttons">
+      <button class="class-btn flowers" type="button" onclick="addEntry('A1')">🌿 A1</button>
+      <button class="class-btn veg" type="button" onclick="addEntry('A2')">🥕 A2</button>
+    </div>
   </section>
 
-  <section class="card">
-    <h2>Your Selected Entries</h2>
-    <ul id="entryList"></ul>
-  </section>
+  <div class="entry-grid">
 
-  <section class="card">
-    <h2>Your Details</h2>
+    <section class="entry-card">
+      <h2>Your Selected Entries</h2>
+      <ul id="entryList"></ul>
+    </section>
 
-    <form id="entryForm">
-      <label>
-        Name
-        <input type="text" id="name" required>
-      </label>
+    <section class="entry-card">
+      <h2>Your Details</h2>
 
-      <label>
-        Email
-        <input type="email" id="email" required>
-      </label>
+      <form id="entryForm">
+        <label>
+          Name
+          <input type="text" id="name" required>
+        </label>
 
-      <label>
-        Phone
-        <input type="tel" id="phone">
-      </label>
+        <label>
+          Email
+          <input type="email" id="email" required>
+        </label>
 
-      <button type="submit">Submit Entry</button>
-    </form>
+        <label>
+          Phone Number
+          <input type="tel" id="phone">
+        </label>
 
-    <p id="confirmation" style="display:none;">
-      Thank you. Your entry has been submitted.
-    </p>
-  </section>
+        <button class="submit-btn" type="submit">Submit Entry</button>
+      </form>
+
+      <p id="confirmation" style="display:none;">
+        Thank you. Your entry has been submitted.
+      </p>
+    </section>
+
+  </div>
 
 </main>
 
@@ -83,12 +221,21 @@ function updateEntryList() {
   const list = document.getElementById("entryList");
   list.innerHTML = "";
 
+  if (selectedEntries.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "No classes selected yet.";
+    list.appendChild(li);
+    return;
+  }
+
   selectedEntries.forEach(entry => {
     const li = document.createElement("li");
     li.textContent = entry;
     list.appendChild(li);
   });
 }
+
+updateEntryList();
 
 document.getElementById("entryForm").addEventListener("submit", function(event) {
   event.preventDefault();
