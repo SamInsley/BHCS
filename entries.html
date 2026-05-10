@@ -98,9 +98,24 @@ document.getElementById("entryForm").addEventListener("submit", function(event) 
     return;
   }
 
-  alert("This test page is working. Next we will connect it to Google Forms.");
+  const formData = new FormData();
+
+  formData.append("entry.2005620554", document.getElementById("name").value);
+  formData.append("entry.1045781291", document.getElementById("email").value);
+  formData.append("entry.1166974658", document.getElementById("phone").value);
+  formData.append("entry.839337160", selectedEntries.join(", "));
+
+  fetch("https://docs.google.com/forms/d/e/1FAIpQLScE8nN6XIkJ1EsWLpoqebWYdElo78qIgnvSzpY7AGevQugU1w/formResponse", {
+    method: "POST",
+    mode: "no-cors",
+    body: formData
+  });
 
   document.getElementById("confirmation").style.display = "block";
+
+  document.getElementById("entryForm").reset();
+  selectedEntries = [];
+  updateEntryList();
 });
 </script>
 
