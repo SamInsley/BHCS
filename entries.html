@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Enter the Show | Broadway Horticultural & Craft Show</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a class="navlink" href="index.html">Home</a>
+      <a class="navlink" href="about.html">About</a>
+      <a class="navlink" href="gallery.html">Gallery & Stalls</a>
+      <a class="navlink" href="stall.html">Stall Application</a>
+      <a class="navlink" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <h1>Enter the Flower Show</h1>
+    <p>Select the classes you would like to enter, then submit your details.</p>
+  </section>
+
+  <section class="card">
+    <h2>Classes</h2>
+
+    <button type="button" onclick="addEntry('A1')">Add A1</button>
+    <button type="button" onclick="addEntry('A2')">Add A2</button>
+  </section>
+
+  <section class="card">
+    <h2>Your Selected Entries</h2>
+    <ul id="entryList"></ul>
+  </section>
+
+  <section class="card">
+    <h2>Your Details</h2>
+
+    <form id="entryForm">
+      <label>
+        Name
+        <input type="text" id="name" required>
+      </label>
+
+      <label>
+        Email
+        <input type="email" id="email" required>
+      </label>
+
+      <label>
+        Phone
+        <input type="tel" id="phone">
+      </label>
+
+      <button type="submit">Submit Entry</button>
+    </form>
+
+    <p id="confirmation" style="display:none;">
+      Thank you. Your entry has been submitted.
+    </p>
+  </section>
+
+</main>
+
+<script>
+let selectedEntries = [];
+
+function addEntry(entry) {
+  if (!selectedEntries.includes(entry)) {
+    selectedEntries.push(entry);
+    updateEntryList();
+  }
+}
+
+function updateEntryList() {
+  const list = document.getElementById("entryList");
+  list.innerHTML = "";
+
+  selectedEntries.forEach(entry => {
+    const li = document.createElement("li");
+    li.textContent = entry;
+    list.appendChild(li);
+  });
+}
+
+document.getElementById("entryForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  if (selectedEntries.length === 0) {
+    alert("Please select at least one class.");
+    return;
+  }
+
+  alert("This test page is working. Next we will connect it to Google Forms.");
+
+  document.getElementById("confirmation").style.display = "block";
+});
+</script>
+
+</body>
+</html>
