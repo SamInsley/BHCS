@@ -100,10 +100,10 @@ document.getElementById("entryForm").addEventListener("submit", function(event) 
 
   const formData = new FormData();
 
-  formData.append("entry.2005620554", document.getElementById("name").value);
-  formData.append("entry.1045781291", document.getElementById("email").value);
-  formData.append("entry.1166974658", document.getElementById("phone").value);
-  formData.append("entry.839337160", selectedEntries.join(", "));
+  formData.append("entry.433563710", document.getElementById("name").value);
+  formData.append("entry.1062495897", document.getElementById("email").value);
+  formData.append("entry.1685688433", document.getElementById("phone").value);
+  formData.append("entry.1761290965", selectedEntries.join(", "));
 
   fetch("https://docs.google.com/forms/d/e/1FAIpQLScE8nN6XIkJ1EsWLpoqebWYdElo78qIgnvSzpY7AGevQugU1w/formResponse", {
     method: "POST",
