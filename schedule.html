@@ -8,48 +8,60 @@
 </head>
 
 <body>
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <a class="navlink" href="index.html">Home</a>
+        <a class="navlink" href="about.html">About</a>
+        <a class="navlink" href="gallery.html">Gallery & Stalls</a>
+        <a class="navlink" href="stall.html">Stall Application</a>
+        <a class="navlink" href="contact.html">Contact</a>
+        <a class="navlink" href="schedule.html">Show Schedule</a>
+      </nav>
+    </div>
+  </header>
 
-<header class="header">
-  <div class="container">
-    <nav class="nav">
-      <a class="navlink" href="index.html">Home</a>
-      <a class="navlink" href="about.html">About</a>
-      <a class="navlink" href="gallery.html">Gallery & Stalls</a>
-      <a class="navlink" href="stall.html">Stall Application</a>
-      <a class="navlink" href="contact.html">Contact</a>
-      <a class="navlink" href="schedule.html">Show Schedule</a>
-    </nav>
-  </div>
-</header>
+  <main class="container">
+    <section class="card">
+      <h1>Show Schedule</h1>
 
-<main class="container">
+      <p>
+        The show schedule is now live!
+      </p>
 
-  <section class="hero">
-    <h1>Show Schedule</h1>
-    <p class="subtitle">The show schedule is now live!</p>
-  </section>
+      <p>
+        Please note this is just a PDF. You can print the entry form in the schedule
+        if you wish to enter by post. The online entry form will go live closer to the show.
+      </p>
 
-  <section class="card">
-    <p>
-      Please note this is just a PDF. You can print the entry form in the schedule
-      if you wish to enter by post. The online entry form will go live closer to the show.
-    </p>
+      <p>
+        <a href="Documents/Schedule.pdf" target="_blank" class="button">Open / Download Schedule</a>
+      </p>
+    </section>
 
-    <p>
-      <a href="Documents/Schedule.pdf" target="_blank" class="button">Download Schedule</a>
-    </p>
-  </section>
+    <section class="card">
+      <iframe
+        src="Documents/Schedule.pdf"
+        width="100%"
+        height="800"
+        style="border:none;">
+      </iframe>
 
-  <section class="card">
-    <iframe 
-      src="Documents/schedule.pdf" 
-      width="100%" 
-      height="800px"
-      style="border:none;">
-    </iframe>
-  </section>
+      <p style="text-align:center; margin-top:10px;">
+        If the schedule does not display,
+        <a href="Documents/Schedule.pdf" target="_blank">click here to view it</a>.
+      </p>
+    </section>
+  </main>
 
-</main>
+  <footer class="footer">
+    <div class="container">
+      <span id="year"></span> Broadway Horticultural & Craft Show
+    </div>
+  </footer>
 
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
