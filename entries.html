@@ -248,6 +248,7 @@ document.getElementById("entryForm").addEventListener("submit", function(event) 
   const formData = new FormData();
 
   formData.append("entry.433563710", document.getElementById("name").value);
+  formData.append("entry.1007946641", document.getElementById("address").value);
   formData.append("entry.1062495897", document.getElementById("email").value);
   formData.append("entry.1685688433", document.getElementById("phone").value);
   formData.append("entry.1761290965", selectedEntries.join(", "));
