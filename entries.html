@@ -250,6 +250,15 @@ function buildButtons() {
 }
 
 function toggleEntry(code, label, button) {
+  const section = code.charAt(0);
+
+  // Section H allows multiple entries in the same class
+  if (section === "H") {
+    selectedEntries.push({ code, label });
+    updateEntryList();
+    return;
+  }
+
   const existingIndex = selectedEntries.findIndex(item => item.code === code);
 
   if (existingIndex === -1) {
