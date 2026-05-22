@@ -54,18 +54,6 @@
       box-shadow: 0 6px 16px rgba(0,0,0,0.12);
     }
 
-    .flowers {
-      color: #4f8a2f;
-      border-color: #9ac77c;
-      background: #f0faeb;
-    }
-
-    .veg {
-      color: #d65f00;
-      border-color: #f2a46f;
-      background: #fff1e7;
-    }
-
     .entry-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -158,16 +146,12 @@
 
   <section class="entry-hero">
     <h1>Enter the 2026 Show</h1>
-  <p>This is currently not live but will be shortly. Keep tuned! </p>
+    <p>This is currently not live but will be shortly. Keep tuned!</p>
   </section>
 
   <section class="entry-card">
     <h2>Choose Your Classes</h2>
-
-    <div class="class-buttons">
-      <!-- <button class="class-btn flowers" type="button" onclick="addEntry('A1')">🌿 A1</button>
-      <button class="class-btn veg" type="button" onclick="addEntry('A2')">🥕 A2</button> -->
-    </div>
+    <div class="class-buttons" id="classButtons"></div>
   </section>
 
   <div class="entry-grid">
@@ -216,9 +200,63 @@
 <script>
 let selectedEntries = [];
 
+const sectionStyles = {
+  A: { name: "Vegetables", emoji: "🥕", colour: "#d60000" },
+  B: { name: "Fruit", emoji: "🍎", colour: "#009b22" },
+  C: { name: "Flowers", emoji: "🌸", colour: "#d4147a" },
+  D: { name: "Pot Plants", emoji: "🪴", colour: "#7b352a" },
+  E: { name: "Floral Art", emoji: "💐", colour: "#3f8f3f" },
+  F: { name: "Preserves / Non-Preserves", emoji: "🍯", colour: "#8b4a8b" },
+  G: { name: "Cookery", emoji: "🍰", colour: "#c46a2b" },
+  H: { name: "Homemade Beverages", emoji: "🍾", colour: "#b0005a" },
+  J: { name: "Handicrafts", emoji: "🧵", colour: "#555555" },
+  K: { name: "Photography", emoji: "📷", colour: "#6b8e23" },
+  L: { name: "Children", emoji: "🎨", colour: "#e2a23a" },
+  M: { name: "Family Fun", emoji: "👨‍👩‍👧‍👦", colour: "#c58ac9" }
+};
+
+const classes = [
+  ...Array.from({length:39}, (_,i)=>`A${i+1}`),
+  ...Array.from({length:10}, (_,i)=>`B${i+1}`),
+  ...Array.from({length:35}, (_,i)=>`C${i+1}`),
+  ...Array.from({length:13}, (_,i)=>`D${i+1}`),
+  ...Array.from({length:5}, (_,i)=>`E${i+1}`),
+  ...Array.from({length:16}, (_,i)=>`F${i+1}`),
+  ...Array.from({length:13}, (_,i)=>`G${i+1}`),
+  ...Array.from({length:5}, (_,i)=>`H${i+1}`),
+  ...Array.from({length:17}, (_,i)=>`J${i+1}`),
+  ...Array.from({length:7}, (_,i)=>`K${i+1}`),
+  ...Array.from({length:10}, (_,i)=>`L${i+1}`),
+  ...Array.from({length:3}, (_,i)=>`M${i+1}`)
+];
+
+function buildButtons() {
+  const holder = document.getElementById("classButtons");
+  holder.innerHTML = "";
+
+  classes.forEach(classCode => {
+    const section = classCode.charAt(0);
+    const style = sectionStyles[section];
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "class-btn";
+    button.textContent = `${style.emoji} ${classCode}`;
+    button.style.color = style.colour;
+    button.style.borderColor = style.colour;
+    button.style.background = `${style.colour}18`;
+    button.title = style.name;
+
+    button.onclick = () => addEntry(classCode);
+
+    holder.appendChild(button);
+  });
+}
+
 function addEntry(entry) {
   if (!selectedEntries.includes(entry)) {
     selectedEntries.push(entry);
+    selectedEntries.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
     updateEntryList();
   }
 }
@@ -241,6 +279,7 @@ function updateEntryList() {
   });
 }
 
+buildButtons();
 updateEntryList();
 
 document.getElementById("entryForm").addEventListener("submit", function(event) {
