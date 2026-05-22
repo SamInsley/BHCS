@@ -7,9 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    body {
-      background: #f4faf3;
-    }
+    body { background: #f4faf3; }
 
     .entry-page {
       margin-top: 2rem;
@@ -34,24 +32,31 @@
     .class-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.75rem;
       margin-top: 1.5rem;
     }
 
     .class-btn {
       border: 2px solid;
       border-radius: 999px;
-      padding: 0.85rem 1.3rem;
-      font-size: 1rem;
+      padding: 0.75rem 1.1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
       background: white;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition: all 0.15s ease;
     }
 
     .class-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .class-btn.selected {
+      background: #111 !important;
+      border-color: #111 !important;
+      color: white !important;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.25);
     }
 
     .entry-grid {
@@ -106,9 +111,7 @@
       cursor: pointer;
     }
 
-    .submit-btn:hover {
-      background: #244828;
-    }
+    .submit-btn:hover { background: #244828; }
 
     #confirmation {
       margin-top: 1rem;
@@ -120,9 +123,7 @@
     }
 
     @media (max-width: 800px) {
-      .entry-grid {
-        grid-template-columns: 1fr;
-      }
+      .entry-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -165,26 +166,10 @@
       <h2>Your Details</h2>
 
       <form id="entryForm">
-        <label>
-          Name
-          <input type="text" id="name" required>
-        </label>
-
-        <label>
-          Address
-          <input type="text" id="address" required>
-        </label>
-
-        <label>
-          Email
-          <input type="email" id="email" required>
-        </label>
-
-        <label>
-          Phone Number
-          <input type="tel" id="phone">
-        </label>
-
+        <label>Name<input type="text" id="name" required></label>
+        <label>Address<input type="text" id="address" required></label>
+        <label>Email<input type="email" id="email" required></label>
+        <label>Phone Number<input type="tel" id="phone"></label>
         <button class="submit-btn" type="submit">Submit Entry</button>
       </form>
 
@@ -201,64 +186,82 @@
 let selectedEntries = [];
 
 const sectionStyles = {
-  A: { name: "Vegetables", emoji: "🥕", colour: "#d60000" },
-  B: { name: "Fruit", emoji: "🍎", colour: "#009b22" },
-  C: { name: "Flowers", emoji: "🌸", colour: "#d4147a" },
-  D: { name: "Pot Plants", emoji: "🪴", colour: "#7b352a" },
-  E: { name: "Floral Art", emoji: "💐", colour: "#3f8f3f" },
-  F: { name: "Preserves / Non-Preserves", emoji: "🍯", colour: "#8b4a8b" },
-  G: { name: "Cookery", emoji: "🍰", colour: "#c46a2b" },
-  H: { name: "Homemade Beverages", emoji: "🍾", colour: "#b0005a" },
-  J: { name: "Handicrafts", emoji: "🧵", colour: "#555555" },
-  K: { name: "Photography", emoji: "📷", colour: "#6b8e23" },
-  L: { name: "Children", emoji: "🎨", colour: "#e2a23a" },
-  M: { name: "Family Fun", emoji: "👨‍👩‍👧‍👦", colour: "#c58ac9" }
+  A: { emoji: "🥕", colour: "#d60000" },
+  B: { emoji: "🍎", colour: "#009b22" },
+  C: { emoji: "🌸", colour: "#d4147a" },
+  D: { emoji: "🪴", colour: "#7b352a" },
+  E: { emoji: "💐", colour: "#3f8f3f" },
+  F: { emoji: "🍯", colour: "#8b4a8b" },
+  G: { emoji: "🍰", colour: "#c46a2b" },
+  H: { emoji: "🍾", colour: "#b0005a" },
+  J: { emoji: "🧵", colour: "#555555" },
+  K: { emoji: "📷", colour: "#6b8e23" },
+  L: { emoji: "🎨", colour: "#e2a23a" },
+  M: { emoji: "👨‍👩‍👧‍👦", colour: "#c58ac9" }
 };
 
 const classes = [
-  ...Array.from({length:39}, (_,i)=>`A${i+1}`),
-  ...Array.from({length:10}, (_,i)=>`B${i+1}`),
-  ...Array.from({length:35}, (_,i)=>`C${i+1}`),
-  ...Array.from({length:13}, (_,i)=>`D${i+1}`),
-  ...Array.from({length:5}, (_,i)=>`E${i+1}`),
-  ...Array.from({length:16}, (_,i)=>`F${i+1}`),
-  ...Array.from({length:13}, (_,i)=>`G${i+1}`),
-  ...Array.from({length:5}, (_,i)=>`H${i+1}`),
-  ...Array.from({length:17}, (_,i)=>`J${i+1}`),
-  ...Array.from({length:7}, (_,i)=>`K${i+1}`),
-  ...Array.from({length:10}, (_,i)=>`L${i+1}`),
-  ...Array.from({length:3}, (_,i)=>`M${i+1}`)
+  ["A1","5 different veg"],["A2","5 runner beans"],["A3","Longest runner bean"],["A4","5 dwarf beans"],["A5","2 parsnips"],["A6","3 carrots"],["A7","4 white potatoes"],["A8","4 coloured potatoes"],["A9","Onion family collection"],["A10","3 onions under 250g"],["A11","3 onions over 250g"],["A12","9 large shallots"],["A13","6 small shallots"],["A14","Heaviest marrow"],["A15","Pair of marrows"],["A16","2 squash"],["A17","3 courgettes"],["A18","2 leeks"],["A19","1 cabbage"],["A20","5 colourful veg"],["A21","5 tomatoes"],["A22","10 cherry tomatoes"],["A23","Cherry tomato truss"],["A24","Largest beefsteak tomato"],["A25","1 cauliflower"],["A26","3 beetroot"],["A27","2 cucumbers"],["A28","2 sweet corn"],["A29","2 sweet peppers"],["A30","6 chillies"],["A31","Globe artichoke"],["A32","2 aubergines"],["A33","Romanesco cauliflower"],["A34","2 celery"],["A35","2 kohlrabi"],["A36","3 turnips"],["A37","2 swedes"],["A38","2 unusual veg"],["A39","Ugliest vegetable"],
+
+  ["B1","5 dessert apples"],["B2","5 cooking apples"],["B3","5 dessert pears"],["B4","6 plums"],["B5","10 raspberries"],["B6","Bunch of grapes"],["B7","10 blackberries"],["B8","1 melon"],["B9","10 crab apples"],["B10","Any other fruit"],
+
+  ["C1","1 large rose bloom"],["C2","3 large rose blooms"],["C3","3 cluster rose stems"],["C4","1 cluster rose stem"],["C5","Rose for scent"],["C6","3 cactus dahlias"],["C7","3 decorative dahlias"],["C8","5 small dahlias"],["C9","5 pom-pom dahlias"],["C10","5 small cactus dahlias"],["C11","3 large dahlias"],["C12","1 dahlia bloom"],["C13","3 vases dahlias"],["C14","Pom-pom dahlias"],["C15","Cactus dahlias"],["C16","Decorative dahlias"],["C17","3 spray chrysanthemums"],["C18","Sunflowers"],["C19","Largest sunflower head"],["C20","Carnations / pinks"],["C21","1 gladiolus spike"],["C22","3 gladioli spikes"],["C23","5 fuchsia heads"],["C24","Annuals"],["C25","Herbaceous perennials"],["C26","Rose button-hole"],["C27","Favourite flower"],["C28","Many flower varieties"],["C29","4 hosta leaves"],["C30","4 herb varieties"],["C31","3 fuchsia stems"],["C32","5 penstemon stems"],["C33","3 aster stems"],["C34","Autumn berries"],["C35","Ornamental grasses"],
+
+  ["D1","Pot-grown fuchsia"],["D2","Triphylla fuchsia"],["D3","Standard fuchsia"],["D4","Foliage plant"],["D5","Cactus / succulent"],["D6","Patio pot"],["D7","Alpine plant"],["D8","Flowering begonia"],["D9","Pelargonium / geranium"],["D10","Orchid"],["D11","Air plant"],["D12","Kokedama"],["D13","Any other pot plant"],
+
+  ["E1","Basket of flowers"],["E2","Bonfire Night arrangement"],["E3","Wedding corsage"],["E4","Floating flowers"],["E5","Imposed floral class"],
+
+  ["F1","Stone fruit jam"],["F2","Strawberry jam"],["F3","Raspberry jam"],["F4","Soft fruit jam"],["F5","Fruit jelly"],["F6","Savoury fruit jelly"],["F7","Marmalade"],["F8","Lemon curd"],["F9","Sweet chutney"],["F10","Spicy chutney"],["F11","Pickled fruit / veg"],["F12","Fruit butter"],["F13","Mint sauce"],["F14","Ketchup"],["F15","Mustard"],["F16","Honey"],
+
+  ["G1","Chocolate flapjacks"],["G2","Fruit scones"],["G3","Gingerbread loaf"],["G4","Vegan banana bread"],["G5","Olive bread loaf"],["G6","Sausage rolls"],["G7","Quiche Lorraine"],["G8","Halloween cupcakes"],["G9","Iced Bakewell slices"],["G10","Caramel cake"],["G11","Gluten free muffins"],["G12","Coffee & walnut cake"],["G13","Gingerbread biscuit"],
+
+  ["H1","Wine / beer / cider"],["H2","Sloe gin"],["H3","Infused gin"],["H4","Homemade liqueur"],["H5","Non-alcoholic cordial"],
+
+  ["J1","Handmade toy"],["J2","Wood / metal craft"],["J3","Reflections drawing"],["J4","Knitted garment"],["J5","Crochet item"],["J6","Floral embroidery"],["J7","Woodland scene"],["J8","Greetings card"],["J9","Patchwork"],["J10","Felted animal / bird"],["J11","Handwriting"],["J12","Bunting"],["J13","Flower / plant craft"],["J14","Origami"],["J15","Halloween wreath"],["J16","Glass item"],["J17","Any other craft"],
+
+  ["K1","Broadway Autumn Show"],["K2","My Pet"],["K3","The Night Sky"],["K4","Bridge(s)"],["K5","My Secret Broadway"],["K6","Fungus / fungi"],["K7","Red"],
+
+  ["L1","Clown face plate"],["L2","Pasta necklace"],["L3","Handwriting poem"],["L4","Halloween spider"],["L5","Handwriting poem"],["L6","Veg garden seed tray"],["L7","Fruit / veg alien"],["L8","Tallest sunflower"],["L9","Xmas card"],["L10","Magazine cover picture"],
+
+  ["M1","Egyptian mummy"],["M2","Monster facemasks"],["M3","Edible creepy-crawlies"]
 ];
 
 function buildButtons() {
   const holder = document.getElementById("classButtons");
   holder.innerHTML = "";
 
-  classes.forEach(classCode => {
-    const section = classCode.charAt(0);
+  classes.forEach(([code, label]) => {
+    const section = code.charAt(0);
     const style = sectionStyles[section];
 
     const button = document.createElement("button");
     button.type = "button";
     button.className = "class-btn";
-    button.textContent = `${style.emoji} ${classCode}`;
+    button.dataset.entry = code;
+    button.textContent = `${style.emoji} ${code} – ${label}`;
     button.style.color = style.colour;
     button.style.borderColor = style.colour;
     button.style.background = `${style.colour}18`;
-    button.title = style.name;
 
-    button.onclick = () => addEntry(classCode);
+    button.onclick = () => toggleEntry(code, label, button);
 
     holder.appendChild(button);
   });
 }
 
-function addEntry(entry) {
-  if (!selectedEntries.includes(entry)) {
-    selectedEntries.push(entry);
-    selectedEntries.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-    updateEntryList();
+function toggleEntry(code, label, button) {
+  const existingIndex = selectedEntries.findIndex(item => item.code === code);
+
+  if (existingIndex === -1) {
+    selectedEntries.push({ code, label });
+    button.classList.add("selected");
+  } else {
+    selectedEntries.splice(existingIndex, 1);
+    button.classList.remove("selected");
   }
+
+  selectedEntries.sort((a, b) => a.code.localeCompare(b.code, undefined, { numeric: true }));
+  updateEntryList();
 }
 
 function updateEntryList() {
@@ -274,7 +277,7 @@ function updateEntryList() {
 
   selectedEntries.forEach(entry => {
     const li = document.createElement("li");
-    li.textContent = entry;
+    li.textContent = `${entry.code} – ${entry.label}`;
     list.appendChild(li);
   });
 }
@@ -290,13 +293,17 @@ document.getElementById("entryForm").addEventListener("submit", function(event) 
     return;
   }
 
+  const selectedText = selectedEntries
+    .map(entry => `${entry.code} - ${entry.label}`)
+    .join(", ");
+
   const formData = new FormData();
 
   formData.append("entry.433563710", document.getElementById("name").value);
   formData.append("entry.1007946641", document.getElementById("address").value);
   formData.append("entry.1062495897", document.getElementById("email").value);
   formData.append("entry.1685688433", document.getElementById("phone").value);
-  formData.append("entry.1761290965", selectedEntries.join(", "));
+  formData.append("entry.1761290965", selectedText);
 
   fetch("https://docs.google.com/forms/d/e/1FAIpQLScE8nN6XIkJ1EsWLpoqebWYdElo78qIgnvSzpY7AGevQugU1w/formResponse", {
     method: "POST",
@@ -305,9 +312,10 @@ document.getElementById("entryForm").addEventListener("submit", function(event) 
   });
 
   document.getElementById("confirmation").style.display = "block";
-
   document.getElementById("entryForm").reset();
+
   selectedEntries = [];
+  document.querySelectorAll(".class-btn").forEach(btn => btn.classList.remove("selected"));
   updateEntryList();
 });
 </script>
