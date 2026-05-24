@@ -6,56 +6,16 @@
 <title>BHCS Results Tool</title>
 
 <style>
-body{
-    font-family:sans-serif;
-    background:#f4faf3;
-    padding:20px;
-}
-
-h1{
-    text-align:center;
-}
-
-.card{
-    background:white;
-    padding:20px;
-    border-radius:20px;
-    margin-bottom:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.1);
-}
-
-input{
-    padding:10px;
-    margin:5px;
-    font-size:16px;
-}
-
-button{
-    padding:12px 18px;
-    font-size:16px;
-    background:#2e7d32;
-    color:white;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#1b5e20;
-}
-
-.big{
-    font-size:20px;
-    margin:10px 0;
-}
-
-.reset{
-    background:#c62828;
-}
-
-.reset:hover{
-    background:#8e0000;
-}
+body{font-family:sans-serif;background:#f4faf3;padding:20px;}
+h1{text-align:center;}
+.card{background:white;padding:20px;border-radius:20px;margin-bottom:20px;box-shadow:0 10px 25px rgba(0,0,0,0.1);}
+input, select{padding:10px;margin:5px;font-size:16px;}
+button{padding:12px 18px;font-size:16px;background:#2e7d32;color:white;border:none;border-radius:12px;cursor:pointer;}
+button:hover{background:#1b5e20;}
+.big{font-size:20px;margin:10px 0;}
+.reset{background:#c62828;}
+.reset:hover{background:#8e0000;}
+.result-row{padding:10px;border-bottom:1px solid #ddd;}
 </style>
 </head>
 
@@ -65,296 +25,221 @@ button:hover{
 
 <div class="card">
 <h2>Upload Entrants CSV</h2>
-
-<input type="file"
-       id="csvFile"
-       accept=".csv">
+<input type="file" id="csvFile" accept=".csv">
 </div>
-
 
 <div class="card">
 <h2>Add Entrant (optional)</h2>
-
 <input id="id" placeholder="ID">
 <input id="name" placeholder="Name">
-
-<button onclick="addEntrant()">
-Add
-</button>
-
+<button onclick="addEntrant()">Add</button>
 <ul id="entrantList"></ul>
-
 </div>
 
-
 <div class="card">
+<h2>Enter Class Result</h2>
 
-<h2>Enter Results</h2>
+<input id="classCode" placeholder="Class e.g. A1">
+
+<br>
 
 <input id="first" placeholder="1st ID">
-
 <input id="second" placeholder="2nd ID">
-
 <input id="third" placeholder="3rd ID">
-
 <input id="hc" placeholder="HC ID">
 
 <br><br>
 
-<button onclick="addResult()">
-Add Result
-</button>
-
+<button onclick="addResult()">Add Class Result</button>
 </div>
 
+<div class="card">
+<h2>Class Results Record</h2>
+<div id="classResults"></div>
+</div>
 
 <div class="card">
-
 <h2>Leaderboard</h2>
-
 <div id="leaderboard"></div>
-
 </div>
 
-
 <div class="card">
-
-<button class="reset"
-onclick="clearEverything()">
-
-Reset All Data
-
-</button>
-
+<button class="reset" onclick="clearEverything()">Reset All Data</button>
 </div>
 
 <script>
-
-let entrants =
-JSON.parse(
-localStorage.getItem("bhcsEntrants")
-) || {};
-
-let scores =
-JSON.parse(
-localStorage.getItem("bhcsScores")
-) || {};
-
+let entrants = JSON.parse(localStorage.getItem("bhcsEntrants")) || {};
+let scores = JSON.parse(localStorage.getItem("bhcsScores")) || {};
+let classResults = JSON.parse(localStorage.getItem("bhcsClassResults")) || {};
 
 function saveData(){
-
-localStorage.setItem(
-"bhcsEntrants",
-JSON.stringify(entrants)
-);
-
-localStorage.setItem(
-"bhcsScores",
-JSON.stringify(scores)
-);
-
+  localStorage.setItem("bhcsEntrants", JSON.stringify(entrants));
+  localStorage.setItem("bhcsScores", JSON.stringify(scores));
+  localStorage.setItem("bhcsClassResults", JSON.stringify(classResults));
 }
-
 
 function addEntrant(){
+  const id = document.getElementById("id").value.trim();
+  const name = document.getElementById("name").value.trim();
 
-const id =
-document.getElementById("id").value;
+  if(!id || !name) return;
 
-const name =
-document.getElementById("name").value;
+  entrants[id] = name;
 
-if(!id || !name) return;
+  if(!(id in scores)){
+    scores[id] = 0;
+  }
 
-entrants[id]=name;
+  saveData();
+  updateLeaderboard();
 
-if(!(id in scores)){
-scores[id]=0;
+  document.getElementById("entrantList").innerHTML += `<li>${id} - ${name}</li>`;
+  document.getElementById("id").value = "";
+  document.getElementById("name").value = "";
 }
 
-saveData();
-
-updateLeaderboard();
-
-document.getElementById("entrantList").innerHTML +=
-`<li>${id} - ${name}</li>`;
-
-document.getElementById("id").value="";
-document.getElementById("name").value="";
-
+function addPoints(id, points){
+  if(!id) return;
+  scores[id] = (scores[id] || 0) + points;
 }
-
 
 function addResult(){
+  const classCode = document.getElementById("classCode").value.trim().toUpperCase();
 
-const first=
-document.getElementById("first").value;
+  const first = document.getElementById("first").value.trim();
+  const second = document.getElementById("second").value.trim();
+  const third = document.getElementById("third").value.trim();
+  const hc = document.getElementById("hc").value.trim();
 
-const second=
-document.getElementById("second").value;
+  if(!classCode){
+    alert("Please enter a class, e.g. A1");
+    return;
+  }
 
-const third=
-document.getElementById("third").value;
+  if(classResults[classCode]){
+    if(!confirm(classCode + " already has a result. Replace it?")){
+      return;
+    }
 
-const hc=
-document.getElementById("hc").value;
+    removeOldResultPoints(classResults[classCode]);
+  }
 
+  classResults[classCode] = {
+    first: first,
+    second: second,
+    third: third,
+    hc: hc
+  };
 
-if(first){
-scores[first]=(scores[first]||0)+5;
+  addPoints(first, 5);
+  addPoints(second, 3);
+  addPoints(third, 2);
+  addPoints(hc, 1);
+
+  saveData();
+  updateLeaderboard();
+  updateClassResults();
+
+  document.getElementById("classCode").value = "";
+  document.getElementById("first").value = "";
+  document.getElementById("second").value = "";
+  document.getElementById("third").value = "";
+  document.getElementById("hc").value = "";
 }
 
-if(second){
-scores[second]=(scores[second]||0)+3;
+function removeOldResultPoints(result){
+  if(result.first) scores[result.first] = (scores[result.first] || 0) - 5;
+  if(result.second) scores[result.second] = (scores[result.second] || 0) - 3;
+  if(result.third) scores[result.third] = (scores[result.third] || 0) - 2;
+  if(result.hc) scores[result.hc] = (scores[result.hc] || 0) - 1;
 }
 
-if(third){
-scores[third]=(scores[third]||0)+2;
+function entrantLabel(id){
+  if(!id) return "—";
+  return `${entrants[id] || "Unknown"} (${id})`;
 }
-
-if(hc){
-scores[hc]=(scores[hc]||0)+1;
-}
-
-
-saveData();
-
-updateLeaderboard();
-
-
-document.getElementById("first").value="";
-document.getElementById("second").value="";
-document.getElementById("third").value="";
-document.getElementById("hc").value="";
-
-}
-
 
 function updateLeaderboard(){
+  let sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
+  let html = "";
 
-let sorted=
-Object.entries(scores)
-.sort((a,b)=>b[1]-a[1]);
+  sorted.forEach(([id,score]) => {
+    if(score > 0){
+      html += `<div class="big">${entrantLabel(id)} — ${score} pts</div>`;
+    }
+  });
 
-let html="";
-
-sorted.forEach(([id,score])=>{
-
-const name=
-entrants[id] || "Unknown";
-
-html+=
-`<div class="big">
-${name} (${id}) — ${score} pts
-</div>`;
-
-});
-
-document.getElementById(
-"leaderboard"
-).innerHTML=html;
-
+  document.getElementById("leaderboard").innerHTML = html || "No scores yet.";
 }
 
+function updateClassResults(){
+  let html = "";
 
+  Object.keys(classResults).sort().forEach(classCode => {
+    const r = classResults[classCode];
+
+    html += `
+      <div class="result-row">
+        <strong>${classCode}</strong><br>
+        1st: ${entrantLabel(r.first)}<br>
+        2nd: ${entrantLabel(r.second)}<br>
+        3rd: ${entrantLabel(r.third)}<br>
+        HC: ${entrantLabel(r.hc)}
+      </div>
+    `;
+  });
+
+  document.getElementById("classResults").innerHTML = html || "No class results yet.";
+}
 
 function clearEverything(){
-
-if(confirm(
-"Delete ALL saved data?"
-)){
-
-localStorage.clear();
-
-entrants={};
-
-scores={};
-
-updateLeaderboard();
-
+  if(confirm("Delete ALL saved data?")){
+    localStorage.clear();
+    entrants = {};
+    scores = {};
+    classResults = {};
+    updateLeaderboard();
+    updateClassResults();
+  }
 }
 
-}
+document.getElementById("csvFile").addEventListener("change", function(event){
+  const file = event.target.files[0];
+  if(!file) return;
 
+  const reader = new FileReader();
 
+  reader.onload = function(e){
+    const text = e.target.result;
+    const lines = text.split("\n");
 
-document
-.getElementById("csvFile")
-.addEventListener(
-"change",
-function(event){
+    for(let i = 1; i < lines.length; i++){
+      let row = lines[i].split(",");
+      if(row.length < 2) continue;
 
-const file=
-event.target.files[0];
+      let name = row[0].trim();
+      let id = row[1].trim();
 
-if(!file) return;
+      if(!name || !id) continue;
 
-const reader=
-new FileReader();
+      entrants[id] = name;
 
+      if(!(id in scores)){
+        scores[id] = 0;
+      }
+    }
 
-reader.onload=
-function(e){
+    saveData();
+    updateLeaderboard();
+    updateClassResults();
+    alert("Entrants loaded!");
+  };
 
-const text=
-e.target.result;
-
-const lines=
-text.split("\n");
-
-
-for(
-let i=1;
-i<lines.length;
-i++
-){
-
-let row=
-lines[i].split(",");
-
-if(row.length<2)
-continue;
-
-
-let name=
-row[0].trim();
-
-let id=
-row[1].trim();
-
-
-if(
-!name ||
-!id
-) continue;
-
-
-entrants[id]=name;
-
-if(!(id in scores)){
-scores[id]=0;
-}
-
-}
-
-
-saveData();
-
-updateLeaderboard();
-
-alert(
-"Entrants loaded!"
-);
-
-};
-
-reader.readAsText(file);
-
+  reader.readAsText(file);
 });
 
-
 updateLeaderboard();
-
+updateClassResults();
 </script>
 
 </body>
