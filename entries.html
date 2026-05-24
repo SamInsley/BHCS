@@ -110,6 +110,21 @@
       font-weight: 700;
       cursor: pointer;
     }
+    .remove-entry-btn {
+      margin-left: 0.6rem;
+      border: none;
+      border-radius: 999px;
+      background: #b0005a;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      cursor: pointer;
+    }
+    
+    .remove-entry-btn:hover {
+      background: #7d0040;
+    }
 
     .submit-btn:hover { background: #244828; }
 
@@ -267,10 +282,11 @@ function toggleEntry(code, label, button) {
 
   // Section H allows multiple entries in the same class
   if (section === "H") {
-    selectedEntries.push({ code, label });
-    updateEntryList();
-    return;
-  }
+  selectedEntries.push({ code, label });
+  button.classList.add("selected");
+  updateEntryList();
+  return;
+}
 
   const existingIndex = selectedEntries.findIndex(item => item.code === code);
 
@@ -297,9 +313,32 @@ function updateEntryList() {
     return;
   }
 
-  selectedEntries.forEach(entry => {
+  selectedEntries.forEach((entry, index) => {
     const li = document.createElement("li");
-    li.textContent = `${entry.code} – ${entry.label}`;
+
+    const text = document.createElement("span");
+    text.textContent = `${entry.code} – ${entry.label}`;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "remove-entry-btn";
+    removeBtn.textContent = "Remove";
+
+    removeBtn.onclick = () => {
+      selectedEntries.splice(index, 1);
+
+      const stillSelected = selectedEntries.some(item => item.code === entry.code);
+      const button = document.querySelector(`.class-btn[data-entry="${entry.code}"]`);
+
+      if (!stillSelected && button) {
+        button.classList.remove("selected");
+      }
+
+      updateEntryList();
+    };
+
+    li.appendChild(text);
+    li.appendChild(removeBtn);
     list.appendChild(li);
   });
 }
