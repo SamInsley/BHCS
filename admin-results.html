@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BHCS Results Tool</title>
+
+<style>
+  body {
+    font-family: sans-serif;
+    background: #f4faf3;
+    padding: 20px;
+  }
+
+  h1 { text-align: center; }
+
+  .card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+
+  input {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 12px 18px;
+    font-size: 16px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #1b5e20;
+  }
+
+  .big {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>🏆 BHCS Results Tool</h1>
+
+<div class="card">
+  <h2>Entrants</h2>
+  <p>Enter ID and Name:</p>
+
+  <input id="id" placeholder="ID">
+  <input id="name" placeholder="Name">
+  <button onclick="addEntrant()">Add</button>
+
+  <ul id="entrantList"></ul>
+</div>
+
+<div class="card">
+  <h2>Enter Results (Example Class A1)</h2>
+
+  <input id="first" placeholder="1st ID">
+  <input id="second" placeholder="2nd ID">
+  <input id="third" placeholder="3rd ID">
+  <input id="hc" placeholder="HC ID">
+
+  <br><br>
+  <button onclick="addResult()">Add Result</button>
+</div>
+
+<div class="card">
+  <h2>Leaderboard</h2>
+  <div id="leaderboard"></div>
+</div>
+
+<script>
+const entrants = {};
+const scores = {};
+
+// Add entrant
+function addEntrant() {
+  const id = document.getElementById("id").value;
+  const name = document.getElementById("name").value;
+
+  entrants[id] = name;
+  scores[id] = 0;
+
+  document.getElementById("entrantList").innerHTML += `<li>${id} - ${name}</li>`;
+
+  document.getElementById("id").value = "";
+  document.getElementById("name").value = "";
+}
+
+// Add result
+function addResult() {
+  const first = document.getElementById("first").value;
+  const second = document.getElementById("second").value;
+  const third = document.getElementById("third").value;
+  const hc = document.getElementById("hc").value;
+
+  if (first) scores[first] += 5;
+  if (second) scores[second] += 3;
+  if (third) scores[third] += 2;
+  if (hc) scores[hc] += 1;
+
+  updateLeaderboard();
+
+  document.getElementById("first").value = "";
+  document.getElementById("second").value = "";
+  document.getElementById("third").value = "";
+  document.getElementById("hc").value = "";
+}
+
+// Update leaderboard
+function updateLeaderboard() {
+  let sorted = Object.entries(scores)
+    .sort((a,b) => b[1] - a[1]);
+
+  let html = "";
+
+  sorted.forEach(([id, score]) => {
+    html += `<div class="big">${entrants[id]} (${id}) — ${score} pts</div>`;
+  });
+
+  document.getElementById("leaderboard").innerHTML = html;
+}
+</script>
+
+</body>
+</html>
