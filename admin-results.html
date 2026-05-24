@@ -53,9 +53,15 @@
 
 <h1>🏆 BHCS Results Tool</h1>
 
+<!-- CSV Upload -->
 <div class="card">
-  <h2>Entrants</h2>
-  <p>Enter ID and Name:</p>
+  <h2>Upload Entrants CSV</h2>
+  <input type="file" id="csvFile" accept=".csv">
+</div>
+
+<!-- Manual entrant (optional) -->
+<div class="card">
+  <h2>Entrants (Manual - optional)</h2>
 
   <input id="id" placeholder="ID">
   <input id="name" placeholder="Name">
@@ -64,6 +70,7 @@
   <ul id="entrantList"></ul>
 </div>
 
+<!-- Results entry -->
 <div class="card">
   <h2>Enter Results (Example Class A1)</h2>
 
@@ -76,6 +83,7 @@
   <button onclick="addResult()">Add Result</button>
 </div>
 
+<!-- Leaderboard -->
 <div class="card">
   <h2>Leaderboard</h2>
   <div id="leaderboard"></div>
@@ -85,7 +93,7 @@
 const entrants = {};
 const scores = {};
 
-// Add entrant
+// Add entrant manually (optional)
 function addEntrant() {
   const id = document.getElementById("id").value;
   const name = document.getElementById("name").value;
@@ -127,11 +135,44 @@ function updateLeaderboard() {
   let html = "";
 
   sorted.forEach(([id, score]) => {
-    html += `<div class="big">${entrants[id]} (${id}) — ${score} pts</div>`;
+    const name = entrants[id] || "Unknown";
+    html += `<div class="big">${name} (${id}) — ${score} pts</div>`;
   });
 
   document.getElementById("leaderboard").innerHTML = html;
 }
+
+// CSV Upload handler
+document.getElementById("csvFile").addEventListener("change", function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const lines = text.split("\n");
+
+    for (let i = 1; i < lines.length; i++) {
+      let row = lines[i].split(",");
+
+      if (row.length < 2) continue;
+
+      let name = row[0].trim();
+      let id = row[1].trim();
+
+      if (!name || !id) continue;
+
+      entrants[id] = name;
+      scores[id] = 0;
+    }
+
+    updateLeaderboard();
+    alert("Entrants loaded successfully!");
+  };
+
+  reader.readAsText(file);
+});
 </script>
 
 </body>
