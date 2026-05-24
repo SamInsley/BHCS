@@ -9,13 +9,16 @@
 body{font-family:sans-serif;background:#f4faf3;padding:20px;}
 h1{text-align:center;}
 .card{background:white;padding:20px;border-radius:20px;margin-bottom:20px;box-shadow:0 10px 25px rgba(0,0,0,0.1);}
-input, select{padding:10px;margin:5px;font-size:16px;}
-button{padding:12px 18px;font-size:16px;background:#2e7d32;color:white;border:none;border-radius:12px;cursor:pointer;}
+input{padding:12px;margin:6px;font-size:18px;border-radius:10px;border:1px solid #ccc;}
+button{padding:14px 20px;font-size:18px;background:#2e7d32;color:white;border:none;border-radius:14px;cursor:pointer;margin:5px;}
 button:hover{background:#1b5e20;}
 .big{font-size:20px;margin:10px 0;}
 .reset{background:#c62828;}
 .reset:hover{background:#8e0000;}
-.result-row{padding:10px;border-bottom:1px solid #ddd;}
+.backup{background:#1565c0;}
+.backup:hover{background:#0d47a1;}
+.result-row{padding:14px;border-bottom:1px solid #ddd;font-size:18px;}
+.small-note{color:#555;}
 </style>
 </head>
 
@@ -25,15 +28,15 @@ button:hover{background:#1b5e20;}
 
 <div class="card">
 <h2>Upload Entrants CSV</h2>
+<p class="small-note">Expected format: NAME, NO, ENTRIES</p>
 <input type="file" id="csvFile" accept=".csv">
 </div>
 
 <div class="card">
-<h2>Add Entrant (optional)</h2>
+<h2>Add Entrant Manually</h2>
 <input id="id" placeholder="ID">
 <input id="name" placeholder="Name">
-<button onclick="addEntrant()">Add</button>
-<ul id="entrantList"></ul>
+<button onclick="addEntrant()">Add Entrant</button>
 </div>
 
 <div class="card">
@@ -46,11 +49,18 @@ button:hover{background:#1b5e20;}
 <input id="first" placeholder="1st ID">
 <input id="second" placeholder="2nd ID">
 <input id="third" placeholder="3rd ID">
-<input id="hc" placeholder="HC ID">
+
+<br>
+
+<input id="hc" placeholder="HC IDs e.g. 12,18,24">
 
 <br><br>
 
-<button onclick="addResult()">Add Class Result</button>
+<button onclick="addResult()">Save Class Result</button>
+
+<p class="small-note">
+Highly Commended can contain multiple IDs separated by commas. Each HC gets 1 point.
+</p>
 </div>
 
 <div class="card">
@@ -61,6 +71,14 @@ button:hover{background:#1b5e20;}
 <div class="card">
 <h2>Leaderboard</h2>
 <div id="leaderboard"></div>
+</div>
+
+<div class="card">
+<h2>Backup / Sharing</h2>
+<button class="backup" onclick="exportBackup()">Export Backup</button>
+<button class="backup" onclick="document.getElementById('backupFile').click()">Import Backup</button>
+<button class="backup" onclick="exportResultsCSV()">Export Results CSV</button>
+<input type="file" id="backupFile" accept=".json" style="display:none">
 </div>
 
 <div class="card">
@@ -82,7 +100,10 @@ function addEntrant(){
   const id = document.getElementById("id").value.trim();
   const name = document.getElementById("name").value.trim();
 
-  if(!id || !name) return;
+  if(!id || !name){
+    alert("Please enter both ID and name.");
+    return;
+  }
 
   entrants[id] = name;
 
@@ -91,16 +112,28 @@ function addEntrant(){
   }
 
   saveData();
-  updateLeaderboard();
+  updateAll();
 
-  document.getElementById("entrantList").innerHTML += `<li>${id} - ${name}</li>`;
   document.getElementById("id").value = "";
   document.getElementById("name").value = "";
+}
+
+function parseHC(value){
+  return value
+    .split(",")
+    .map(x => x.trim())
+    .filter(x => x !== "");
 }
 
 function addPoints(id, points){
   if(!id) return;
   scores[id] = (scores[id] || 0) + points;
+}
+
+function removePoints(id, points){
+  if(!id) return;
+  scores[id] = (scores[id] || 0) - points;
+  if(scores[id] < 0) scores[id] = 0;
 }
 
 function addResult(){
@@ -109,10 +142,10 @@ function addResult(){
   const first = document.getElementById("first").value.trim();
   const second = document.getElementById("second").value.trim();
   const third = document.getElementById("third").value.trim();
-  const hc = document.getElementById("hc").value.trim();
+  const hc = parseHC(document.getElementById("hc").value);
 
   if(!classCode){
-    alert("Please enter a class, e.g. A1");
+    alert("Please enter a class code, e.g. A1.");
     return;
   }
 
@@ -120,7 +153,6 @@ function addResult(){
     if(!confirm(classCode + " already has a result. Replace it?")){
       return;
     }
-
     removeOldResultPoints(classResults[classCode]);
   }
 
@@ -134,11 +166,13 @@ function addResult(){
   addPoints(first, 5);
   addPoints(second, 3);
   addPoints(third, 2);
-  addPoints(hc, 1);
+
+  hc.forEach(id => {
+    addPoints(id, 1);
+  });
 
   saveData();
-  updateLeaderboard();
-  updateClassResults();
+  updateAll();
 
   document.getElementById("classCode").value = "";
   document.getElementById("first").value = "";
@@ -148,10 +182,15 @@ function addResult(){
 }
 
 function removeOldResultPoints(result){
-  if(result.first) scores[result.first] = (scores[result.first] || 0) - 5;
-  if(result.second) scores[result.second] = (scores[result.second] || 0) - 3;
-  if(result.third) scores[result.third] = (scores[result.third] || 0) - 2;
-  if(result.hc) scores[result.hc] = (scores[result.hc] || 0) - 1;
+  removePoints(result.first, 5);
+  removePoints(result.second, 3);
+  removePoints(result.third, 2);
+
+  if(Array.isArray(result.hc)){
+    result.hc.forEach(id => removePoints(id, 1));
+  } else if(result.hc){
+    removePoints(result.hc, 1);
+  }
 }
 
 function entrantLabel(id){
@@ -159,8 +198,18 @@ function entrantLabel(id){
   return `${entrants[id] || "Unknown"} (${id})`;
 }
 
+function hcLabel(hcList){
+  if(!hcList || hcList.length === 0) return "—";
+
+  if(!Array.isArray(hcList)){
+    hcList = [hcList];
+  }
+
+  return hcList.map(id => entrantLabel(id)).join(", ");
+}
+
 function updateLeaderboard(){
-  let sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
+  const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
   let html = "";
 
   sorted.forEach(([id,score]) => {
@@ -172,10 +221,20 @@ function updateLeaderboard(){
   document.getElementById("leaderboard").innerHTML = html || "No scores yet.";
 }
 
+function sortClassCodes(a,b){
+  const secA = a.match(/[A-Z]+/)[0];
+  const secB = b.match(/[A-Z]+/)[0];
+  const numA = parseInt(a.match(/\d+/)?.[0] || 0);
+  const numB = parseInt(b.match(/\d+/)?.[0] || 0);
+
+  if(secA === secB) return numA - numB;
+  return secA.localeCompare(secB);
+}
+
 function updateClassResults(){
   let html = "";
 
-  Object.keys(classResults).sort().forEach(classCode => {
+  Object.keys(classResults).sort(sortClassCodes).forEach(classCode => {
     const r = classResults[classCode];
 
     html += `
@@ -184,7 +243,7 @@ function updateClassResults(){
         1st: ${entrantLabel(r.first)}<br>
         2nd: ${entrantLabel(r.second)}<br>
         3rd: ${entrantLabel(r.third)}<br>
-        HC: ${entrantLabel(r.hc)}
+        HC: ${hcLabel(r.hc)}
       </div>
     `;
   });
@@ -192,15 +251,9 @@ function updateClassResults(){
   document.getElementById("classResults").innerHTML = html || "No class results yet.";
 }
 
-function clearEverything(){
-  if(confirm("Delete ALL saved data?")){
-    localStorage.clear();
-    entrants = {};
-    scores = {};
-    classResults = {};
-    updateLeaderboard();
-    updateClassResults();
-  }
+function updateAll(){
+  updateLeaderboard();
+  updateClassResults();
 }
 
 document.getElementById("csvFile").addEventListener("change", function(event){
@@ -211,14 +264,14 @@ document.getElementById("csvFile").addEventListener("change", function(event){
 
   reader.onload = function(e){
     const text = e.target.result;
-    const lines = text.split("\n");
+    const lines = text.split(/\r?\n/);
 
     for(let i = 1; i < lines.length; i++){
-      let row = lines[i].split(",");
+      const row = lines[i].split(",");
       if(row.length < 2) continue;
 
-      let name = row[0].trim();
-      let id = row[1].trim();
+      const name = row[0].trim();
+      const id = row[1].trim();
 
       if(!name || !id) continue;
 
@@ -230,16 +283,122 @@ document.getElementById("csvFile").addEventListener("change", function(event){
     }
 
     saveData();
-    updateLeaderboard();
-    updateClassResults();
+    updateAll();
     alert("Entrants loaded!");
   };
 
   reader.readAsText(file);
 });
 
-updateLeaderboard();
-updateClassResults();
+function exportBackup(){
+  const backup = {
+    entrants: entrants,
+    scores: scores,
+    classResults: classResults,
+    exportedAt: new Date().toISOString()
+  };
+
+  downloadFile(
+    "bhcs-results-backup.json",
+    JSON.stringify(backup, null, 2),
+    "application/json"
+  );
+}
+
+document.getElementById("backupFile").addEventListener("change", function(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+    const backup = JSON.parse(e.target.result);
+
+    entrants = backup.entrants || {};
+    scores = backup.scores || {};
+    classResults = backup.classResults || {};
+
+    saveData();
+    updateAll();
+
+    alert("Backup imported!");
+  };
+
+  reader.readAsText(file);
+});
+
+function exportResultsCSV(){
+  let rows = [];
+
+  rows.push([
+    "Class",
+    "1st ID",
+    "1st Name",
+    "2nd ID",
+    "2nd Name",
+    "3rd ID",
+    "3rd Name",
+    "HC IDs",
+    "HC Names"
+  ]);
+
+  Object.keys(classResults).sort(sortClassCodes).forEach(classCode => {
+    const r = classResults[classCode];
+    const hcList = Array.isArray(r.hc) ? r.hc : (r.hc ? [r.hc] : []);
+
+    rows.push([
+      classCode,
+      r.first || "",
+      entrants[r.first] || "",
+      r.second || "",
+      entrants[r.second] || "",
+      r.third || "",
+      entrants[r.third] || "",
+      hcList.join("; "),
+      hcList.map(id => entrants[id] || "Unknown").join("; ")
+    ]);
+  });
+
+  const csv = rows.map(row => row.map(csvEscape).join(",")).join("\n");
+
+  downloadFile(
+    "bhcs-class-results.csv",
+    csv,
+    "text/csv"
+  );
+}
+
+function csvEscape(value){
+  value = String(value ?? "");
+  if(value.includes(",") || value.includes("\"") || value.includes("\n")){
+    return `"${value.replace(/"/g, '""')}"`;
+  }
+  return value;
+}
+
+function downloadFile(filename, content, type){
+  const blob = new Blob([content], {type:type});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function clearEverything(){
+  if(confirm("Delete ALL saved entrants, scores and class results?")){
+    localStorage.clear();
+    entrants = {};
+    scores = {};
+    classResults = {};
+    updateAll();
+  }
+}
+
+updateAll();
 </script>
 
 </body>
