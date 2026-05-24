@@ -19,6 +19,10 @@ button:hover{background:#1b5e20;}
 .backup:hover{background:#0d47a1;}
 .result-row{padding:14px;border-bottom:1px solid #ddd;font-size:18px;}
 .small-note{color:#555;}
+.modal{display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.55);}
+.modal-content{background:white;margin:5% auto;padding:25px;border-radius:20px;width:90%;max-width:750px;max-height:80vh;overflow:auto;}
+.close{float:right;font-size:34px;font-weight:bold;cursor:pointer;}
+.entrant-row{font-size:19px;padding:8px;border-bottom:1px solid #ddd;}
 </style>
 </head>
 
@@ -30,10 +34,13 @@ button:hover{background:#1b5e20;}
 <h2>Upload Entrants CSV</h2>
 <p class="small-note">Expected format: NAME, NO, ENTRIES</p>
 <input type="file" id="csvFile" accept=".csv">
+<br>
+<button onclick="openEntrantsPopup()">Show Current Entrants</button>
 </div>
 
 <div class="card">
-<h2>Add Entrant Manually</h2>
+<h2>Add Late Entrant Manually</h2>
+<p id="nextIdText" class="small-note"></p>
 <input id="id" placeholder="ID">
 <input id="name" placeholder="Name">
 <button onclick="addEntrant()">Add Entrant</button>
@@ -43,19 +50,14 @@ button:hover{background:#1b5e20;}
 <h2>Enter Class Result</h2>
 
 <input id="classCode" placeholder="Class e.g. A1">
-
 <br>
-
 <input id="first" placeholder="1st ID">
 <input id="second" placeholder="2nd ID">
 <input id="third" placeholder="3rd ID">
-
 <br>
-
 <input id="hc" placeholder="HC IDs e.g. 12,18,24">
 
 <br><br>
-
 <button onclick="addResult()">Save Class Result</button>
 
 <p class="small-note">
@@ -85,6 +87,15 @@ Highly Commended can contain multiple IDs separated by commas. Each HC gets 1 po
 <button class="reset" onclick="clearEverything()">Reset All Data</button>
 </div>
 
+<div id="entrantsModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeEntrantsPopup()">&times;</span>
+    <h2>Current Entrants</h2>
+    <p id="popupNextId"></p>
+    <div id="entrantDirectory"></div>
+  </div>
+</div>
+
 <script>
 let entrants = JSON.parse(localStorage.getItem("bhcsEntrants")) || {};
 let scores = JSON.parse(localStorage.getItem("bhcsScores")) || {};
@@ -96,6 +107,25 @@ function saveData(){
   localStorage.setItem("bhcsClassResults", JSON.stringify(classResults));
 }
 
+function getNextAvailableId(){
+  const ids = Object.keys(entrants)
+    .map(id => parseInt(id))
+    .filter(id => !isNaN(id));
+
+  if(ids.length === 0) return 2;
+  return Math.max(...ids) + 1;
+}
+
+function updateNextId(){
+  const nextId = getNextAvailableId();
+  document.getElementById("nextIdText").innerHTML =
+    `<strong>Next available ID:</strong> ${nextId}`;
+
+  if(!document.getElementById("id").value){
+    document.getElementById("id").value = nextId;
+  }
+}
+
 function addEntrant(){
   const id = document.getElementById("id").value.trim();
   const name = document.getElementById("name").value.trim();
@@ -103,6 +133,12 @@ function addEntrant(){
   if(!id || !name){
     alert("Please enter both ID and name.");
     return;
+  }
+
+  if(entrants[id]){
+    if(!confirm("ID " + id + " already exists for " + entrants[id] + ". Replace it?")){
+      return;
+    }
   }
 
   entrants[id] = name;
@@ -114,15 +150,12 @@ function addEntrant(){
   saveData();
   updateAll();
 
-  document.getElementById("id").value = "";
+  document.getElementById("id").value = getNextAvailableId();
   document.getElementById("name").value = "";
 }
 
 function parseHC(value){
-  return value
-    .split(",")
-    .map(x => x.trim())
-    .filter(x => x !== "");
+  return value.split(",").map(x => x.trim()).filter(x => x !== "");
 }
 
 function addPoints(id, points){
@@ -138,7 +171,6 @@ function removePoints(id, points){
 
 function addResult(){
   const classCode = document.getElementById("classCode").value.trim().toUpperCase();
-
   const first = document.getElementById("first").value.trim();
   const second = document.getElementById("second").value.trim();
   const third = document.getElementById("third").value.trim();
@@ -156,20 +188,12 @@ function addResult(){
     removeOldResultPoints(classResults[classCode]);
   }
 
-  classResults[classCode] = {
-    first: first,
-    second: second,
-    third: third,
-    hc: hc
-  };
+  classResults[classCode] = { first, second, third, hc };
 
   addPoints(first, 5);
   addPoints(second, 3);
   addPoints(third, 2);
-
-  hc.forEach(id => {
-    addPoints(id, 1);
-  });
+  hc.forEach(id => addPoints(id, 1));
 
   saveData();
   updateAll();
@@ -200,11 +224,7 @@ function entrantLabel(id){
 
 function hcLabel(hcList){
   if(!hcList || hcList.length === 0) return "—";
-
-  if(!Array.isArray(hcList)){
-    hcList = [hcList];
-  }
-
+  if(!Array.isArray(hcList)) hcList = [hcList];
   return hcList.map(id => entrantLabel(id)).join(", ");
 }
 
@@ -222,8 +242,8 @@ function updateLeaderboard(){
 }
 
 function sortClassCodes(a,b){
-  const secA = a.match(/[A-Z]+/)[0];
-  const secB = b.match(/[A-Z]+/)[0];
+  const secA = a.match(/[A-Z]+/)?.[0] || "";
+  const secB = b.match(/[A-Z]+/)?.[0] || "";
   const numA = parseInt(a.match(/\d+/)?.[0] || 0);
   const numB = parseInt(b.match(/\d+/)?.[0] || 0);
 
@@ -251,9 +271,47 @@ function updateClassResults(){
   document.getElementById("classResults").innerHTML = html || "No class results yet.";
 }
 
+function updateEntrantDirectory(){
+  const nextId = getNextAvailableId();
+
+  document.getElementById("popupNextId").innerHTML =
+    `<strong>Next available ID:</strong> ${nextId}`;
+
+  let html = "";
+
+  Object.keys(entrants)
+    .map(id => parseInt(id))
+    .filter(id => !isNaN(id))
+    .sort((a,b) => a - b)
+    .forEach(id => {
+      html += `<div class="entrant-row"><strong>${id}</strong> — ${entrants[id]}</div>`;
+    });
+
+  document.getElementById("entrantDirectory").innerHTML =
+    html || "No entrants loaded yet.";
+}
+
+function openEntrantsPopup(){
+  updateEntrantDirectory();
+  document.getElementById("entrantsModal").style.display = "block";
+}
+
+function closeEntrantsPopup(){
+  document.getElementById("entrantsModal").style.display = "none";
+}
+
+window.onclick = function(event){
+  const modal = document.getElementById("entrantsModal");
+  if(event.target === modal){
+    closeEntrantsPopup();
+  }
+};
+
 function updateAll(){
+  updateNextId();
   updateLeaderboard();
   updateClassResults();
+  updateEntrantDirectory();
 }
 
 document.getElementById("csvFile").addEventListener("change", function(event){
@@ -292,17 +350,13 @@ document.getElementById("csvFile").addEventListener("change", function(event){
 
 function exportBackup(){
   const backup = {
-    entrants: entrants,
-    scores: scores,
-    classResults: classResults,
+    entrants,
+    scores,
+    classResults,
     exportedAt: new Date().toISOString()
   };
 
-  downloadFile(
-    "bhcs-results-backup.json",
-    JSON.stringify(backup, null, 2),
-    "application/json"
-  );
+  downloadFile("bhcs-results-backup.json", JSON.stringify(backup, null, 2), "application/json");
 }
 
 document.getElementById("backupFile").addEventListener("change", function(event){
@@ -360,12 +414,7 @@ function exportResultsCSV(){
   });
 
   const csv = rows.map(row => row.map(csvEscape).join(",")).join("\n");
-
-  downloadFile(
-    "bhcs-class-results.csv",
-    csv,
-    "text/csv"
-  );
+  downloadFile("bhcs-class-results.csv", csv, "text/csv");
 }
 
 function csvEscape(value){
@@ -377,7 +426,7 @@ function csvEscape(value){
 }
 
 function downloadFile(filename, content, type){
-  const blob = new Blob([content], {type:type});
+  const blob = new Blob([content], {type});
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement("a");
