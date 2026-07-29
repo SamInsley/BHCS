@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Broadway Horticultural &amp; Craft Show — Results &amp; Trophies</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --maroon:#7c2d3a;
+    --maroon-dark:#5c1f29;
+    --maroon-tint:#f5e9ea;
+    --cream:#fdf7ea;
+    --paper:#fffdf8;
+    --gold:#c9972b;
+    --gold-tint:#fbf1dc;
+    --green:#3f7d4a;
+    --green-dark:#2c5c34;
+    --green-tint:#e9f3ea;
+    --amber-tint:#fdf1de;
+    --amber-ink:#8a6800;
+    --ink:#2b2320;
+    --ink-soft:#6b5a4a;
+    --line:#e3d8c2;
+    --font-display:"Fraunces", Georgia, "Times New Roman", serif;
+    --font-body:"Inter", "Segoe UI", Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:var(--font-body);
+    background:
+      radial-gradient(1200px 500px at 50% -120px, var(--gold-tint), transparent 60%),
+      var(--cream);
+    color:var(--ink);
+    padding:20px 16px 60px;
+    margin:0;
+    max-width:980px;
+    margin-inline:auto;
+    line-height:1.45;
+  }
+
+  /* ---------- Header ---------- */
+  .site-header{ text-align:center; margin-bottom:6px; }
+  .ribbon-icon{ display:block; margin:0 auto 6px; }
+  h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    color:var(--maroon-dark);
+    font-size:30px;
+    margin:0 0 2px;
+    letter-spacing:.01em;
+  }
+  .subtitle{
+    color:var(--ink-soft);
+    margin-bottom:6px;
+    font-size:15px;
+  }
+  .help-link{
+    display:inline-block;
+    font-size:13px;
+    color:var(--maroon);
+    text-decoration:underline;
+    cursor:pointer;
+    margin-bottom:18px;
+    background:none;
+    border:none;
+    padding:0;
+    font-family:inherit;
+  }
+
+  /* ---------- Intro / welcome card ---------- */
+  .intro-card{
+    background:var(--paper);
+    border:1px solid var(--gold);
+    border-left:6px solid var(--gold);
+    border-radius:14px;
+    padding:18px 20px;
+    margin-bottom:20px;
+    position:relative;
+  }
+  .intro-card h2{ border:none; padding:0; margin-bottom:8px; font-size:18px; }
+  .intro-card ol{ margin:8px 0 0; padding-left:20px; }
+  .intro-card li{ margin-bottom:6px; font-size:15px; }
+  .intro-close{
+    position:absolute; top:12px; right:14px;
+    background:none; border:none; color:var(--ink-soft);
+    font-size:22px; cursor:pointer; padding:0; margin:0; line-height:1;
+  }
+  .intro-close:hover{ background:none; color:var(--maroon); }
+
+  /* ---------- Progress dashboard ---------- */
+  .dashboard{
+    display:flex; flex-wrap:wrap; gap:10px;
+    margin-bottom:20px;
+  }
+  .stat-chip{
+    flex:1 1 150px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:12px 16px;
+    text-align:center;
+  }
+  .stat-chip .stat-num{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:26px;
+    color:var(--maroon-dark);
+    display:block;
+  }
+  .stat-chip .stat-label{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .stat-chip.attention .stat-num{ color:var(--amber-ink); }
+
+  /* ---------- Cards & step headings ---------- */
+  h2{
+    margin-top:0;
+    color:var(--maroon-dark);
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:20px;
+    border-bottom:2px solid var(--line);
+    padding-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .step-num{
+    flex:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--maroon);
+    color:var(--cream);
+    font-family:var(--font-body);
+    font-size:14px;
+    font-weight:700;
+  }
+  h3{ color:var(--maroon-dark); font-size:16px; margin:18px 0 8px; font-family:var(--font-display); font-weight:600; }
+  .card{
+    background:var(--paper);
+    padding:22px 22px 20px;
+    border-radius:16px;
+    margin-bottom:18px;
+    box-shadow:0 6px 18px rgba(90,50,30,0.08);
+    border:1px solid var(--line);
+  }
+  input, select, textarea{
+    padding:12px;
+    margin:5px 4px;
+    font-size:16px;
+    border-radius:10px;
+    border:1.5px solid #d8cdb8;
+    font-family:var(--font-body);
+    background:white;
+  }
+  input:focus, select:focus, textarea:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px var(--gold-tint);
+  }
+  input[type=file]{ border:none; padding:6px 0; background:none; }
+  label.fieldlabel{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:.02em;
+    margin:8px 4px -2px;
+  }
+  button{
+    padding:13px 18px;
+    font-size:15.5px;
+    background:var(--green);
+    color:white;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    margin:5px 4px;
+    font-weight:600;
+    transition:transform .05s ease, background .15s ease;
+  }
+  button:hover{background:var(--green-dark);}
+  button:active{ transform:scale(0.97); }
+  .reset{background:#b23a2f;}
+  .reset:hover{background:#8e0000;}
+  .backup{background:#1565c0;}
+  .backup:hover{background:#0d47a1;}
+  .maroon-btn{background:var(--maroon);}
+  .maroon-btn:hover{background:var(--maroon-dark);}
+
+  .big{font-size:19px;margin:8px 0;padding:8px 6px;border-bottom:1px solid var(--line); display:flex; justify-content:space-between;}
+  .small-note{color:var(--ink-soft); font-size:14px; line-height:1.55;}
+  .warn{color:#a13b1c; font-size:14px;}
+  .result-row{padding:12px 6px;border-bottom:1px solid var(--line);font-size:16px; border-radius:8px;}
+  .result-row:hover{ background:var(--cream); }
+  .result-row button{font-size:13px;padding:6px 10px;}
+  .entrant-row{font-size:16px;padding:8px 6px;border-bottom:1px solid var(--line); display:flex; justify-content:space-between;}
+  .modal{display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(43,35,32,0.6);}
+  .modal-content{background:var(--paper);margin:4% auto;padding:24px;border-radius:18px;width:92%;max-width:800px;max-height:82vh;overflow:auto;}
+  .close{float:right;font-size:32px;font-weight:bold;cursor:pointer;color:#a89684;}
+  .close:hover{ color:var(--maroon); }
+
+  .empty-state{
+    color:var(--ink-soft);
+    font-style:italic;
+    padding:14px 4px;
+  }
+
+  /* ---------- Trophies ---------- */
+  .filter-row{
+    display:flex; align-items:center; gap:8px;
+    margin-bottom:14px; font-size:14.5px; color:var(--ink-soft);
+  }
+  .filter-row input{ margin:0; width:auto; padding:0; }
+  .trophy-row{
+    border:1px solid var(--line);
+    border-left:5px solid var(--line);
+    border-radius:12px;
+    padding:13px 16px;
+    margin-bottom:10px;
+    background:var(--paper);
+    transition:background .15s ease;
+  }
+  .trophy-row.status-done{ border-left-color:var(--green); background:var(--green-tint); }
+  .trophy-row.status-pending{ border-left-color:var(--gold); background:var(--amber-tint); }
+  .trophy-row .num{
+    display:inline-block;
+    background:var(--maroon);
+    color:white;
+    font-size:12px;
+    font-weight:700;
+    border-radius:20px;
+    padding:2px 9px;
+    margin-right:8px;
+  }
+  .trophy-name{font-weight:700; font-size:16px; color:var(--maroon-dark); font-family:var(--font-display);}
+  .trophy-desc{font-size:13px; color:var(--ink-soft); margin:2px 0 6px;}
+  .trophy-winner{font-size:16px; margin-top:4px;}
+  .trophy-winner .none{color:#999; font-style:italic;}
+  .tag{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    padding:2px 8px;
+    border-radius:20px;
+    margin-left:6px;
+    vertical-align:middle;
+  }
+  .tag-manual{background:#fde8d8; color:#a13b1c;}
+  .tag-gender{background:#e8dcf4; color:#5b2e91;}
+  .tag-special{background:#fff0c2; color:#8a6800;}
+  .manual-input{width:100%; max-width:420px;}
+  .section-jump{
+    display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;
+  }
+  .section-jump a{
+    font-size:12px; padding:5px 10px; border-radius:20px;
+    background:var(--cream); border:1px solid var(--gold); color:var(--maroon-dark);
+    text-decoration:none;
+  }
+  .section-jump a:hover{ background:var(--gold-tint); }
+  .flex-row{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .idcell{ font-variant-numeric:tabular-nums; }
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed;
+    left:50%; bottom:26px;
+    transform:translate(-50%, 20px);
+    background:var(--maroon-dark);
+    color:white;
+    padding:12px 20px;
+    border-radius:30px;
+    font-size:14.5px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.25);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    z-index:1000;
+    max-width:90vw;
+    text-align:center;
+  }
+  .toast.show{ opacity:1; transform:translate(-50%, 0); }
+
+  /* Ceremony sheet - hidden on screen, shown only when printing */
+  #ceremonySheet{ display:none; }
+  #ceremonySheet h1{ text-align:left; font-family:var(--font-display); }
+  #ceremonySheet table{ width:100%; border-collapse:collapse; font-size:13px; }
+  #ceremonySheet td, #ceremonySheet th{ border-bottom:1px solid #ccc; padding:6px 4px; text-align:left; }
+  @media print{
+    body.print-ceremony > *:not(#ceremonySheet){ display:none !important; }
+    body.print-ceremony #ceremonySheet{ display:block !important; }
+    body.print-ceremony{ padding:0; background:none; }
+  }
+
+  @media (max-width:480px){
+    h1{ font-size:24px; }
+    .card{ padding:16px; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="site-header">
+  <svg class="ribbon-icon" width="56" height="78" viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="30,68 30,134 50,118 70,134 70,68" fill="#c9972b"/>
+    <circle cx="50" cy="45" r="38" fill="#7c2d3a" stroke="#c9972b" stroke-width="5"/>
+    <circle cx="50" cy="45" r="25" fill="none" stroke="#fdf7ea" stroke-width="2.5"/>
+    <polygon points="50,26 58,42 76,45 63,57 66,75 50,66 34,75 37,57 24,45 42,42"
+      fill="#fdf7ea"/>
+  </svg>
+  <h1>Broadway Horticultural &amp; Craft Show</h1>
+  <div class="subtitle">Results &amp; Trophy Tool</div>
+  <button class="help-link" onclick="showIntro()">❔ How this works</button>
+</div>
+
+<div id="introCard" class="intro-card" style="display:none;">
+  <button class="intro-close" onclick="dismissIntro()" aria-label="Close">&times;</button>
+  <h2>New to this tool? Here's the order to work in</h2>
+  <ol>
+    <li><strong>Add your entrants</strong> — upload the CSV or add people one at a time as late entries come in.</li>
+    <li><strong>Enter each class result</strong> as judging finishes, using the IDs from the entry cards. Joint placements just get more than one ID.</li>
+    <li><strong>Leave the trophies to work themselves out</strong> — every cup updates the moment you save a result. The Handicraft cups will ask you a quick question if they need to know someone's gender to decide a winner.</li>
+    <li><strong>At 4.30pm</strong>, hit "Print prize-giving sheet" for a single page listing all 41 trophies and their winners.</li>
+  </ol>
+  <p class="small-note" style="margin-top:10px;">Everything is saved automatically in this browser as you go — see "Backup / sharing" below if you need to hand this over to someone else or use a different device.</p>
+</div>
+
+<div class="dashboard" id="dashboard"></div>
+
+<div class="card">
+  <h2><span class="step-num">1</span> Entrants</h2>
+  <h3>Upload entrants CSV</h3>
+  <p class="small-note">Columns: <strong>NAME, NO</strong> (a 3rd column ENTRIES is ignored if present). You don't need to supply gender — the two Handicraft cups will only ask about a specific person, and only if they're actually in contention for that cup.</p>
+  <input type="file" id="csvFile" accept=".csv">
+  <br>
+  <button onclick="openEntrantsPopup()">Show current entrants</button>
+
+  <h3>Add / edit an entrant manually</h3>
+  <p id="nextIdText" class="small-note"></p>
+  <input id="id" placeholder="ID" style="width:90px">
+  <input id="name" placeholder="Name" style="width:220px">
+  <br>
+  <button onclick="addEntrant()">Save entrant</button>
+</div>
+
+<div class="card">
+  <h2><span class="step-num">2</span> Enter a class result</h2>
+  <p class="small-note">If a place is shared, enter more than one ID separated by commas — e.g. <strong>12,18</strong> for joint 1st. Each ID listed for a place gets the full points for that place.</p>
+
+  <label class="fieldlabel">Class code</label>
+  <input id="classCode" placeholder="e.g. A1" list="classCodeList" style="width:120px">
+  <datalist id="classCodeList"></datalist>
+
+  <div class="flex-row">
+    <div>
+      <label class="fieldlabel">1st ID(s)</label>
+      <input id="first" placeholder="e.g. 12" style="width:140px">
+    </div>
+    <div>
+      <label class="fieldlabel">2nd ID(s)</label>
+      <input id="second" placeholder="e.g. 7" style="width:140px">
+    </div>
+    <div>
+      <label class="fieldlabel">3rd ID(s)</label>
+      <input id="third" placeholder="e.g. 22" style="width:140px">
+    </div>
+    <div>
+      <label class="fieldlabel">Highly Commended ID(s)</label>
+      <input id="hc" placeholder="e.g. 12,18,24" style="width:180px">
+    </div>
+  </div>
+
+  <br>
+  <button onclick="addResult()">Save class result</button>
+  <p id="classCodeWarning" class="warn"></p>
+</div>
+
+<div class="card">
+  <h2><span class="step-num">3</span> Class results record</h2>
+  <div id="classResults"></div>
+</div>
+
+<div class="card">
+  <h2><span class="step-num">4</span> Overall entrant leaderboard</h2>
+  <p class="small-note">This is every entrant's total points added up across <em>every</em> class — useful as a quick overview, but the actual trophies below are each based on their own specific set of classes, per the show rules.</p>
+  <div id="leaderboard"></div>
+</div>
+
+<div class="card">
+  <h2><span class="step-num">5</span> Trophies</h2>
+  <p class="small-note">
+    Computed automatically from the class results above, following Show Rule 8's points system (1st=5, 2nd=3, 3rd=2, HC=1) and tie-break (most 1st places, then most 2nd places).
+    Trophies marked <span class="tag tag-manual">Judged</span> aren't decided by points — they're the judge's choice of best exhibit, so just type the winner in in the box provided for your records and the prize-giving sheet.
+    The two Handicraft cups are restricted by gender — if the top scorer's gender isn't known yet, you'll be asked right there, one person at a time, only when it actually affects the result.
+  </p>
+
+  <div class="section-jump">
+    <a href="#trophy-1">Vegetables</a>
+    <a href="#trophy-2">Fruit</a>
+    <a href="#trophy-3">Flowers</a>
+    <a href="#trophy-17">Pot Plants</a>
+    <a href="#trophy-18">Floral Art</a>
+    <a href="#trophy-19">Preserves</a>
+    <a href="#trophy-20">Cookery</a>
+    <a href="#trophy-25">Beverages</a>
+    <a href="#trophy-26">Handicrafts</a>
+    <a href="#trophy-28">Photography</a>
+    <a href="#trophy-31">Junior</a>
+    <a href="#trophy-37">Family Fun</a>
+    <a href="#trophy-38">Overall</a>
+  </div>
+
+  <div class="filter-row">
+    <input type="checkbox" id="pendingOnlyToggle" onchange="updateTrophyList()">
+    <label for="pendingOnlyToggle">Only show trophies still needing a decision</label>
+  </div>
+
+  <div id="trophyList"></div>
+
+  <h3>R.H.S. Banksian Medal — 3-year rule (Show Rule 8)</h3>
+  <p class="small-note">"Competitors can only win this Medal once every three years." Once all of Sections A–D are entered, the Medal's row above will ask you to confirm whether its current leader won it in the last 3 shows. Answer "Yes" and it moves on to the next person down; answer "No" and they're confirmed as the winner.</p>
+  <div id="banksianConfirmedList"></div>
+
+  <h3 style="margin-top:24px;">Prize-giving sheet</h3>
+  <p class="small-note">Prints (or saves as PDF) a single sheet listing all 41 trophies in order, with the current winner for each — ready to read out at 4.30pm.</p>
+  <button class="maroon-btn" onclick="printCeremonySheet()">Print prize-giving sheet</button>
+</div>
+
+<div class="card">
+  <h2><span class="step-num">6</span> Backup / sharing</h2>
+  <button class="backup" onclick="exportBackup()">Export backup</button>
+  <button class="backup" onclick="document.getElementById('backupFile').click()">Import backup</button>
+  <button class="backup" onclick="exportResultsCSV()">Export class results CSV</button>
+  <button class="backup" onclick="exportTrophyCSV()">Export trophy winners CSV</button>
+  <input type="file" id="backupFile" accept=".json" style="display:none">
+  <p class="small-note">Backups are only saved in this browser on this device. If someone else needs to carry on the job on a different phone/laptop, use "Export backup" here and "Import backup" there.</p>
+</div>
+
+<div class="card">
+  <button class="reset" onclick="clearEverything()">Reset all data</button>
+</div>
+
+<div id="entrantsModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeEntrantsPopup()">&times;</span>
+    <h2>Current entrants</h2>
+    <p id="popupNextId"></p>
+    <div id="entrantDirectory"></div>
+  </div>
+</div>
+
+<div id="ceremonySheet"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+/* ---------- Data ---------- */
+let entrants = JSON.parse(localStorage.getItem("bhcsEntrants")) || {};       // { id: {name, gender} }
+let classResults = JSON.parse(localStorage.getItem("bhcsClassResults")) || {}; // { CODE: {first:[], second:[], third:[], hc:[]} }
+let trophyRecords = JSON.parse(localStorage.getItem("bhcsTrophyRecords")) || {}; // { trophyId: {winner, note} } for manual trophies
+let banksianEligibility = JSON.parse(localStorage.getItem("bhcsBanksianEligibility")) || {}; // { entrantId: true (eligible) | false (won in last 3 shows) }
+
+function saveData(){
+  localStorage.setItem("bhcsEntrants", JSON.stringify(entrants));
+  localStorage.setItem("bhcsClassResults", JSON.stringify(classResults));
+  localStorage.setItem("bhcsTrophyRecords", JSON.stringify(trophyRecords));
+  localStorage.setItem("bhcsBanksianEligibility", JSON.stringify(banksianEligibility));
+}
+
+/* ---------- Class ranges & trophy definitions (from the 2026 Show Schedule) ---------- */
+function R(prefix, start, end){
+  const arr = [];
+  for(let i = start; i <= end; i++) arr.push(prefix + i);
+  return arr;
+}
+const SEC_A = R("A",1,39);
+const SEC_B = R("B",1,10);
+const SEC_C = R("C",1,35);
+const SEC_D = R("D",1,13);
+const SEC_E = R("E",1,5);
+const SEC_F = R("F",1,16);
+const SEC_G = R("G",1,13);
+const SEC_H = R("H",1,5);
+const SEC_J = R("J",1,17);
+const SEC_K = R("K",1,7);
+const SEC_L = R("L",1,10);
+const SEC_M = R("M",1,3);
+const RHS_CLASSES = [...SEC_A, ...SEC_B, ...SEC_C, ...SEC_D];
+const NONRHS_CLASSES = [...SEC_E, ...SEC_F, ...SEC_G, ...SEC_H, ...SEC_J, ...SEC_K, ...SEC_L, ...SEC_M];
+const ALL_CLASSES = [...RHS_CLASSES, ...NONRHS_CLASSES];
+
+const trophies = [
+  {id:1, name:"The Charlie Parker Memorial Trophy", desc:"Most points in Vegetables (A1–A39)", sponsor:"Presented by his family and friends", type:"points", classes:SEC_A},
+  {id:2, name:"Challenge Cup — Fruit", desc:"Most points in Fruit (B1–B10)", sponsor:"Presented by Mr A T B Parke", type:"points", classes:SEC_B},
+  {id:3, name:"The Chairman's Cup", desc:"Most points in Flowers (C1–C35)", sponsor:"Presented by Mr J I Barton", type:"points", classes:SEC_C},
+  {id:4, name:"Challenge Cup — Best Onions in Show", desc:"Classes A9, A10 & A11", sponsor:"Presented by the late Mr E T Hatton", type:"manual"},
+  {id:5, name:"Challenge Cup — Best Collection of Coloured Vegetables", desc:"Class A20", sponsor:"Presented by the late Miss M E Cook", type:"class-winner", classes:["A20"]},
+  {id:6, name:"Challenge Cup — Unusual/Different Vegetables", desc:"Class A38", sponsor:"", type:"class-winner", classes:["A38"]},
+  {id:7, name:"The Lady Nabarro Cup", desc:"Best Single Rose (Class C1)", sponsor:"Presented by Lady Nabarro", type:"class-winner", classes:["C1"]},
+  {id:8, name:"The Hopkins Memorial Cup", desc:"Best Cluster Flowered Roses (C3 & C4)", sponsor:"Presented by the family of Mr C Hopkins", type:"manual"},
+  {id:9, name:"The Freddie Belcher Memorial Cup", desc:"Best Large Flowered Roses (C1 & C2)", sponsor:"Presented by The Bakers Arms", type:"manual"},
+  {id:10, name:"Challenge Cup — Roses", desc:"Most points in Roses (C1–C5)", sponsor:"Presented by Mr J S Pearson", type:"points", classes:R("C",1,5)},
+  {id:11, name:"The Just Roses Cup", desc:"Most Scented Rose (Class C5)", sponsor:"Presented by Mr M Humphries", type:"class-winner", classes:["C5"]},
+  {id:12, name:"Challenge Cup — Dahlias", desc:"Most points in Dahlias (C6–C16)", sponsor:"", type:"points", classes:R("C",6,16)},
+  {id:13, name:"The Rod Folkes Challenge Cup", desc:"Best Spray Chrysanthemums (Class C17)", sponsor:"Presented by Broadway Show Society", type:"class-winner", classes:["C17"]},
+  {id:14, name:"The John Keylock Memorial Cup", desc:"Largest Sunflower Head (Class C19)", sponsor:"Presented by Mr R. Folkes", type:"class-winner", classes:["C19"]},
+  {id:15, name:"The Ken Sandal's Memorial Cup", desc:"Most points in Flowers (C18–C35)", sponsor:"Presented by Hampton WMC", type:"points", classes:R("C",18,35)},
+  {id:16, name:"Barbara Halford Memorial Cup", desc:"Most points in Gladioli (C21 & C22)", sponsor:"Presented by Mr D Halford", type:"points", classes:["C21","C22"]},
+  {id:17, name:"The Andy Serve Cup", desc:"Most points in Pot Plants (D1–D13)", sponsor:"Presented by the late Mrs T B Shannon-Garvey", type:"points", classes:SEC_D},
+  {id:18, name:"Challenge Cup — Floral Art", desc:"Most points in Floral Art (E1–E5)", sponsor:"Presented by Mr J. S. Pearson", type:"points", classes:SEC_E},
+  {id:19, name:"Broadway Scout Trust Challenge Cup", desc:"Most points in Preserves (F1–F16)", sponsor:"", type:"points", classes:SEC_F},
+  {id:20, name:"Challenge Cup — Cookery", desc:"Most points in Cookery (G1–G13)", sponsor:"Presented by Mrs D Muston", type:"points", classes:SEC_G},
+  {id:21, name:"Challenge Cup — Bread Class", desc:"1st Prize in the Bread Class (G5)", sponsor:"Presented by Mrs P Shryane", type:"class-winner", classes:["G5"]},
+  {id:22, name:"The Coeliac Cup", desc:"Winner of the Coeliac Class (G11)", sponsor:"Presented by Mrs P. Townshend", type:"class-winner", classes:["G11"]},
+  {id:23, name:"The Dave Roberts Cup", desc:"Winner of 'Men Only' Cake (G12)", sponsor:"Presented by The Broadway Show Society", type:"class-winner", classes:["G12"]},
+  {id:24, name:"The Sir Gerald Nabarro Trophy", desc:"Most points in Domestic (F1–F16 & G1–G13)", sponsor:"Presented by the late Sir Gerald Nabarro MP", type:"points", classes:[...SEC_F, ...SEC_G]},
+  {id:25, name:"Challenge Cup — Homemade Beverages", desc:"Most points (H1–H5)", sponsor:"Presented by Mr J M de Navarro", type:"points", classes:SEC_H},
+  {id:26, name:"Challenge Cup — Lady, Handicraft", desc:"Most points in Handicraft (J1–J17)", sponsor:"Presented by the late Mrs J E Pierce-Dunscombe", type:"points", classes:SEC_J, gender:"F"},
+  {id:27, name:"Challenge Cup — Gentleman, Handicraft", desc:"Most points in Handicraft (J1–J17)", sponsor:"Presented by the late Mrs J E Pierce-Dunscombe", type:"points", classes:SEC_J, gender:"M"},
+  {id:28, name:"The Peter McSweeney Photographic Challenge Cup", desc:"Most points in Photography (K1–K7)", sponsor:"Presented by Mr P McSweeney", type:"points", classes:SEC_K},
+  {id:29, name:"Challenge Trophy — Best Photograph in Show", desc:"Classes K1–K7", sponsor:"Presented by Mr D Robinson", type:"manual"},
+  {id:30, name:"The P. Kurlinkus Memorial Cup", desc:"Best Photograph in Junior Photography (K7)", sponsor:"Presented by the family of the late Mr. P. Kurlinkus", type:"class-winner", classes:["K7"]},
+  {id:31, name:"Junior Medal — Nursery (under 4)", desc:"Class L1", sponsor:"Presented by Broadway Garden Club", type:"class-winner", classes:["L1"]},
+  {id:32, name:"Junior Medal — Key Stage 1", desc:"Class L2", sponsor:"Presented by the late Mr S Jobson", type:"class-winner", classes:["L2"]},
+  {id:33, name:"Junior Medal — Key Stage 1", desc:"Class L3", sponsor:"Presented by Broadway Garden Club", type:"class-winner", classes:["L3"]},
+  {id:34, name:"Junior Medal — Key Stage 2", desc:"Class L4", sponsor:"", type:"class-winner", classes:["L4"]},
+  {id:35, name:"Junior Medal — Key Stage 2", desc:"Class L5", sponsor:"Presented by Mrs J Holt", type:"class-winner", classes:["L5"]},
+  {id:36, name:"The Batsford Arboretum Cup", desc:"Most points, Junior Classes 16 & under (G13, K7, L1–L10)", sponsor:"Presented by Batsford Arboretum", type:"points", classes:["G13","K7", ...R("L",1,10)]},
+  {id:37, name:"Challenge Cup — Family Fun", desc:"Most points (M1–M3)", sponsor:"", type:"points", classes:SEC_M},
+  {id:38, name:"The Broadway Show Society Cup", desc:"Most points in RHS Classes A–D", sponsor:"Sponsored by Broadway Show Society. £25 Prize", type:"points", classes:RHS_CLASSES},
+  {id:39, name:"The Thelma Shannon-Garvey Trophy", desc:"Most points in the non-RHS Classes E–M", sponsor:"Presented by the late Miss S C Barrie. £25 Prize", type:"points", classes:NONRHS_CLASSES},
+  {id:40, name:"Challenge Cup — Most Points in the Show", desc:"All classes", sponsor:"Presented by Mrs S M Burnett. Sponsored by Broadway Show Society. £25 Prize", type:"points", classes:ALL_CLASSES},
+  {id:41, name:"R.H.S. \u201cBanksian Medal\u201d", desc:"Most points in the Horticultural Sections A–D", sponsor:"Granted to the Broadway Show Society by the Royal Horticultural Society", type:"banksian", classes:RHS_CLASSES}
+];
+
+/* ---------- Entrants ---------- */
+function getNextAvailableId(){
+  const ids = Object.keys(entrants).map(id => parseInt(id)).filter(id => !isNaN(id));
+  if(ids.length === 0) return 1;
+  return Math.max(...ids) + 1;
+}
+
+function updateNextId(){
+  const nextId = getNextAvailableId();
+  document.getElementById("nextIdText").innerHTML = `<strong>Next available ID:</strong> ${nextId}`;
+  if(!document.getElementById("id").value){
+    document.getElementById("id").value = nextId;
+  }
+}
+
+function escapeHtml(str){
+  return String(str ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[c]));
+}
+
+function addEntrant(){
+  const id = document.getElementById("id").value.trim();
+  const name = document.getElementById("name").value.trim();
+
+  if(!id || !name){
+    alert("Please enter both ID and name.");
+    return;
+  }
+
+  if(entrants[id] && entrants[id].name !== name){
+    if(!confirm("ID " + id + " already exists for " + entrants[id].name + ". Replace it?")){
+      return;
+    }
+  }
+
+  const existingGender = entrants[id]?.gender || "";
+  entrants[id] = { name, gender: existingGender };
+
+  saveData();
+  updateAll();
+  showToast(`✓ Saved ${name} (ID ${id})`);
+
+  document.getElementById("id").value = getNextAvailableId();
+  document.getElementById("name").value = "";
+}
+
+/* Called when the user answers a gender prompt for a specific entrant (only asked when it
+   actually affects a Handicraft cup result — see resolveGenderTrophy). */
+function setGenderAndAnswer(id, gender){
+  if(!entrants[id]) return;
+  entrants[id].gender = gender;
+  saveData();
+  updateAll();
+}
+
+/* ---------- Class results ---------- */
+function parseIds(value){
+  return (value || "").split(",").map(x => x.trim()).filter(x => x !== "");
+}
+
+function addResult(){
+  const classCode = document.getElementById("classCode").value.trim().toUpperCase();
+  const first = parseIds(document.getElementById("first").value);
+  const second = parseIds(document.getElementById("second").value);
+  const third = parseIds(document.getElementById("third").value);
+  const hc = parseIds(document.getElementById("hc").value);
+
+  if(!classCode){
+    alert("Please enter a class code, e.g. A1.");
+    return;
+  }
+
+  if(classResults[classCode]){
+    if(!confirm(classCode + " already has a result. Replace it?")){
+      return;
+    }
+  }
+
+  classResults[classCode] = { first, second, third, hc };
+
+  saveData();
+  updateAll();
+  showToast(`✓ Saved result for ${classCode}`);
+
+  document.getElementById("classCode").value = "";
+  document.getElementById("first").value = "";
+  document.getElementById("second").value = "";
+  document.getElementById("third").value = "";
+  document.getElementById("hc").value = "";
+}
+
+function deleteResult(classCode){
+  if(!confirm("Delete the result for " + classCode + "?")) return;
+  delete classResults[classCode];
+  saveData();
+  updateAll();
+}
+
+function entrantLabel(id){
+  if(!id) return "—";
+  const e = entrants[id];
+  return e ? `${escapeHtml(e.name)} (${escapeHtml(id)})` : `Unknown (${escapeHtml(id)})`;
+}
+
+function labelIds(idsArray){
+  if(!idsArray || idsArray.length === 0) return "—";
+  return idsArray.map(id => entrantLabel(id)).join(", ");
+}
+
+function sortClassCodes(a,b){
+  const secA = a.match(/[A-Z]+/)?.[0] || "";
+  const secB = b.match(/[A-Z]+/)?.[0] || "";
+  const numA = parseInt(a.match(/\d+/)?.[0] || 0);
+  const numB = parseInt(b.match(/\d+/)?.[0] || 0);
+  if(secA === secB) return numA - numB;
+  return secA.localeCompare(secB);
+}
+
+function updateClassResults(){
+  let html = "";
+  Object.keys(classResults).sort(sortClassCodes).forEach(classCode => {
+    const r = classResults[classCode];
+    html += `
+      <div class="result-row">
+        <strong>${escapeHtml(classCode)}</strong>
+        <button class="reset" style="float:right" onclick="deleteResult('${classCode}')">Delete</button>
+        <br>
+        1st: ${labelIds(r.first)}<br>
+        2nd: ${labelIds(r.second)}<br>
+        3rd: ${labelIds(r.third)}<br>
+        HC: ${labelIds(r.hc)}
+      </div>
+    `;
+  });
+  document.getElementById("classResults").innerHTML = html || "No class results yet.";
+}
+
+/* ---------- Points engine (always recomputed from classResults — nothing is stored/mutated) ---------- */
+function computeStats(classFilterSet){
+  const stats = {};
+  Object.keys(classResults).forEach(classCode => {
+    if(classFilterSet && !classFilterSet.has(classCode)) return;
+    const r = classResults[classCode];
+    const add = (idsArr, points, field) => {
+      (idsArr || []).forEach(id => {
+        if(!id) return;
+        if(!stats[id]) stats[id] = { points:0, firsts:0, seconds:0, thirds:0, hcs:0 };
+        stats[id].points += points;
+        stats[id][field]++;
+      });
+    };
+    add(r.first, 5, "firsts");
+    add(r.second, 3, "seconds");
+    add(r.third, 2, "thirds");
+    add(r.hc, 1, "hcs");
+  });
+  return stats;
+}
+
+function updateLeaderboard(){
+  const stats = computeStats(null);
+  const sorted = Object.entries(stats)
+    .filter(([id,s]) => s.points > 0)
+    .sort((a,b) => b[1].points - a[1].points);
+
+  let html = "";
+  sorted.forEach(([id,s]) => {
+    html += `<div class="big">${entrantLabel(id)} — ${s.points} pts</div>`;
+  });
+  document.getElementById("leaderboard").innerHTML = html || "No scores yet.";
+}
+
+/* Returns { winnerIds:[...], stats } or null if nobody scored */
+function trophyLeaders(trophy){
+  const filterSet = new Set(trophy.classes);
+  let stats = computeStats(filterSet);
+
+  if(trophy.gender){
+    Object.keys(stats).forEach(id => {
+      const g = entrants[id]?.gender || "";
+      if(g !== trophy.gender) delete stats[id];
+    });
+  }
+
+  const entries = Object.entries(stats).filter(([id,s]) => s.points > 0);
+  if(entries.length === 0) return null;
+
+  entries.sort((a,b) =>
+    b[1].points - a[1].points ||
+    b[1].firsts - a[1].firsts ||
+    b[1].seconds - a[1].seconds
+  );
+
+  const top = entries[0][1];
+  const winners = entries.filter(([id,s]) =>
+    s.points === top.points && s.firsts === top.firsts && s.seconds === top.seconds
+  );
+  return { winnerIds: winners.map(([id]) => id), stats: top };
+}
+
+/* Groups entrants into tied "tiers" (same points, same firsts, same seconds), ranked highest first */
+function computeTiers(classFilterSet){
+  const stats = computeStats(classFilterSet);
+  const entries = Object.entries(stats).filter(([id,s]) => s.points > 0);
+  entries.sort((a,b) =>
+    b[1].points - a[1].points ||
+    b[1].firsts - a[1].firsts ||
+    b[1].seconds - a[1].seconds
+  );
+  const tiers = [];
+  entries.forEach(([id,s]) => {
+    const last = tiers[tiers.length - 1];
+    if(last && last.stats.points === s.points && last.stats.firsts === s.firsts && last.stats.seconds === s.seconds){
+      last.ids.push(id);
+    } else {
+      tiers.push({ stats: s, ids: [id] });
+    }
+  });
+  return tiers;
+}
+
+/* For gender-restricted trophies: walk down the ranked tiers. For the first tier that could
+   decide the trophy, if anyone's gender is unknown, ask about exactly those people (and no one
+   else) before deciding. If everyone in a tier is known and none match, move to the next tier. */
+function resolveGenderTrophy(trophy){
+  const tiers = computeTiers(new Set(trophy.classes));
+  for(const tier of tiers){
+    const unknown = tier.ids.filter(id => !entrants[id]?.gender);
+    if(unknown.length > 0){
+      return { status:"needsInput", pendingIds: unknown, stats: tier.stats };
+    }
+    const matches = tier.ids.filter(id => entrants[id].gender === trophy.gender);
+    if(matches.length > 0){
+      return { status:"resolved", winnerIds: matches, stats: tier.stats };
+    }
+  }
+  return { status:"none" };
+}
+
+function classWinnerIds(classCode){
+  const r = classResults[classCode];
+  if(!r || !r.first || r.first.length === 0) return null;
+  return r.first;
+}
+
+/* For the Banksian Medal: walk down the ranked tiers (same points/tie-break as any other points
+   trophy). For the first tier that could decide it, if anyone hasn't been confirmed either way,
+   ask about exactly them. "Yes, won in the last 3 shows" skips them and moves down; "No" confirms
+   them as winner. Once someone's answered, they're remembered — no need to ask again next year
+   unless you clear it. */
+function resolveBanksianTrophy(trophy){
+  const tiers = computeTiers(new Set(trophy.classes));
+  for(const tier of tiers){
+    const unknown = tier.ids.filter(id => banksianEligibility[id] === undefined);
+    if(unknown.length > 0){
+      return { status:"needsInput", pendingIds: unknown, stats: tier.stats };
+    }
+    const eligible = tier.ids.filter(id => banksianEligibility[id] === true);
+    if(eligible.length > 0){
+      return { status:"resolved", winnerIds: eligible, stats: tier.stats };
+    }
+    // everyone in this tier already won in the last 3 shows — move to the next tier
+  }
+  return { status:"none" };
+}
+
+function setBanksianAnswer(id, wonRecently){
+  banksianEligibility[id] = !wonRecently;
+  saveData();
+  updateAll();
+}
+
+function clearBanksianAnswer(id){
+  delete banksianEligibility[id];
+  saveData();
+  updateAll();
+}
+
+/* ---------- Trophy rendering ---------- */
+function updateTrophyList(){
+  const pendingOnly = document.getElementById("pendingOnlyToggle")?.checked;
+  let html = "";
+  let shown = 0;
+
+  trophies.forEach(t => {
+    let winnerHtml = "";
+    let tags = "";
+    let isDone = false;
+
+    if(t.gender) tags += `<span class="tag tag-gender">${t.gender === "F" ? "Lady" : "Gentleman"}</span>`;
+    if(t.type === "banksian") tags += `<span class="tag tag-special">3-year rule</span>`;
+
+    if(t.gender){
+      const result = resolveGenderTrophy(t);
+      if(result.status === "none"){
+        winnerHtml = `<span class="none">No qualifying results yet</span>`;
+      } else if(result.status === "needsInput"){
+        winnerHtml = result.pendingIds.map(id => `
+          <div style="margin-bottom:6px;">
+            Is <strong>${entrantLabel(id)}</strong> (${result.stats.points} pts) a Lady or Gentleman for the Handicraft cups?
+            <button onclick="setGenderAndAnswer('${id}','F')">Lady</button>
+            <button onclick="setGenderAndAnswer('${id}','M')">Gentleman</button>
+          </div>
+        `).join("");
+      } else {
+        const names = result.winnerIds.map(entrantLabel).join(" &amp; ");
+        const tieNote = result.winnerIds.length > 1 ? " (joint)" : "";
+        winnerHtml = `<strong>${names}${tieNote}</strong> — ${result.stats.points} pts`;
+        isDone = true;
+      }
+    } else if(t.type === "banksian"){
+      const result = resolveBanksianTrophy(t);
+      if(result.status === "none"){
+        winnerHtml = `<span class="none">No qualifying results yet</span>`;
+      } else if(result.status === "needsInput"){
+        winnerHtml = result.pendingIds.map(id => `
+          <div style="margin-bottom:6px;">
+            Did <strong>${entrantLabel(id)}</strong> (${result.stats.points} pts) win the Banksian Medal in the last 3 shows?
+            <button onclick="setBanksianAnswer('${id}', true)">Yes — skip them</button>
+            <button onclick="setBanksianAnswer('${id}', false)">No — they're eligible</button>
+          </div>
+        `).join("");
+      } else {
+        const names = result.winnerIds.map(entrantLabel).join(" &amp; ");
+        const tieNote = result.winnerIds.length > 1 ? " (joint)" : "";
+        winnerHtml = `<strong>${names}${tieNote}</strong> — ${result.stats.points} pts`;
+        isDone = true;
+      }
+    } else if(t.type === "points"){
+      const result = trophyLeaders(t);
+      if(!result){
+        winnerHtml = `<span class="none">No qualifying results yet</span>`;
+      } else {
+        const names = result.winnerIds.map(entrantLabel).join(" &amp; ");
+        const tieNote = result.winnerIds.length > 1 ? " (joint)" : "";
+        winnerHtml = `<strong>${names}${tieNote}</strong> — ${result.stats.points} pts`;
+        isDone = true;
+      }
+    } else if(t.type === "class-winner"){
+      const winners = classWinnerIds(t.classes[0]);
+      if(!winners){
+        winnerHtml = `<span class="none">Class ${t.classes[0]} not entered yet</span>`;
+      } else {
+        winnerHtml = `<strong>${winners.map(entrantLabel).join(" &amp; ")}</strong>`;
+        isDone = true;
+      }
+    } else if(t.type === "manual"){
+      tags += `<span class="tag tag-manual">Judged</span>`;
+      const rec = trophyRecords[t.id] || { winner:"", note:"" };
+      winnerHtml = `
+        <input class="manual-input" placeholder="Winner's name" value="${escapeHtml(rec.winner)}"
+          onchange="setTrophyRecord(${t.id}, this.value)">
+      `;
+      isDone = !!(rec.winner && rec.winner.trim());
+    }
+
+    if(pendingOnly && isDone) return;
+    shown++;
+
+    html += `
+      <div class="trophy-row ${isDone ? "status-done" : "status-pending"}" id="trophy-${t.id}">
+        <span class="num">${t.id}</span><span class="trophy-name">${escapeHtml(t.name)}</span>${tags}
+        <div class="trophy-desc">${escapeHtml(t.desc)}${t.sponsor ? " — " + escapeHtml(t.sponsor) : ""}</div>
+        <div class="trophy-winner">${winnerHtml}</div>
+      </div>
+    `;
+  });
+
+  document.getElementById("trophyList").innerHTML = html ||
+    `<p class="empty-state">${pendingOnly ? "Nothing left to decide — every trophy has a winner recorded! 🎉" : "No trophies to show."}</p>`;
+}
+
+function setTrophyRecord(trophyId, winner){
+  trophyRecords[trophyId] = { winner, note:"" };
+  saveData();
+}
+
+function updateBanksianConfirmedList(){
+  const entries = Object.entries(banksianEligibility);
+  const el = document.getElementById("banksianConfirmedList");
+  if(!el) return;
+  if(entries.length === 0){
+    el.innerHTML = `<p class="small-note">No confirmations recorded yet.</p>`;
+    return;
+  }
+  el.innerHTML = entries.map(([id, eligible]) => `
+    <div class="entrant-row">
+      <span>${entrantLabel(id)} — ${eligible ? "confirmed eligible" : "won in the last 3 shows (excluded)"}</span>
+      <button class="reset" style="font-size:12px;padding:5px 9px;" onclick="clearBanksianAnswer('${id}')">Undo</button>
+    </div>
+  `).join("");
+}
+
+/* Used only for the dashboard's "trophies still needing a decision" count */
+function isTrophyDone(t){
+  if(t.gender) return resolveGenderTrophy(t).status === "resolved";
+  if(t.type === "banksian") return resolveBanksianTrophy(t).status === "resolved";
+  if(t.type === "points") return !!trophyLeaders(t);
+  if(t.type === "class-winner") return !!classWinnerIds(t.classes[0]);
+  if(t.type === "manual") return !!(trophyRecords[t.id]?.winner?.trim());
+  return false;
+}
+
+function updateDashboard(){
+  const entrantCount = Object.keys(entrants).length;
+  const classesDone = Object.keys(classResults).length;
+  const classesTotal = ALL_CLASSES.length;
+  const trophiesPending = trophies.filter(t => !isTrophyDone(t)).length;
+
+  document.getElementById("dashboard").innerHTML = `
+    <div class="stat-chip">
+      <span class="stat-num">${entrantCount}</span>
+      <span class="stat-label">Entrants</span>
+    </div>
+    <div class="stat-chip">
+      <span class="stat-num">${classesDone} / ${classesTotal}</span>
+      <span class="stat-label">Classes judged</span>
+    </div>
+    <div class="stat-chip ${trophiesPending > 0 ? "attention" : ""}">
+      <span class="stat-num">${trophiesPending}</span>
+      <span class="stat-label">Trophies still to decide</span>
+    </div>
+  `;
+  updateBanksianConfirmedList();
+}
+
+/* Resolve a single trophy's winner text, for the ceremony sheet / CSV export */
+function resolveTrophyWinnerText(t){
+  if(t.gender){
+    const result = resolveGenderTrophy(t);
+    if(result.status === "none") return "—";
+    if(result.status === "needsInput") return "(needs gender confirmation — see app)";
+    return result.winnerIds.map(id => entrants[id]?.name || `Unknown (${id})`).join(" & ") +
+      (result.winnerIds.length > 1 ? " (joint)" : "");
+  }
+  if(t.type === "banksian"){
+    const result = resolveBanksianTrophy(t);
+    if(result.status === "none") return "—";
+    if(result.status === "needsInput") return "(needs 3-year rule confirmation — see app)";
+    return result.winnerIds.map(id => entrants[id]?.name || `Unknown (${id})`).join(" & ") +
+      (result.winnerIds.length > 1 ? " (joint)" : "");
+  }
+  if(t.type === "points"){
+    const result = trophyLeaders(t);
+    if(!result) return "—";
+    return result.winnerIds.map(id => entrants[id]?.name || `Unknown (${id})`).join(" & ") +
+      (result.winnerIds.length > 1 ? " (joint)" : "");
+  }
+  if(t.type === "class-winner"){
+    const winners = classWinnerIds(t.classes[0]);
+    if(!winners) return "—";
+    return winners.map(id => entrants[id]?.name || `Unknown (${id})`).join(" & ");
+  }
+  if(t.type === "manual"){
+    const rec = trophyRecords[t.id];
+    return (rec && rec.winner) ? rec.winner : "(to be judged)";
+  }
+  return "—";
+}
+
+/* ---------- Entrant directory popup ---------- */
+function updateEntrantDirectory(){
+  const nextId = getNextAvailableId();
+  document.getElementById("popupNextId").innerHTML = `<strong>Next available ID:</strong> ${nextId}`;
+
+  let html = "";
+  Object.keys(entrants)
+    .map(id => parseInt(id))
+    .filter(id => !isNaN(id))
+    .sort((a,b) => a - b)
+    .forEach(id => {
+      const e = entrants[id];
+      const genderLabel = e.gender ? ` <span class="small-note">(${e.gender === "F" ? "Lady" : "Gentleman"})</span>` : "";
+      html += `<div class="entrant-row"><strong>${id}</strong> — ${escapeHtml(e.name)}${genderLabel}</div>`;
+    });
+
+  document.getElementById("entrantDirectory").innerHTML = html || "No entrants loaded yet.";
+}
+
+function openEntrantsPopup(){
+  updateEntrantDirectory();
+  document.getElementById("entrantsModal").style.display = "block";
+}
+function closeEntrantsPopup(){
+  document.getElementById("entrantsModal").style.display = "none";
+}
+window.onclick = function(event){
+  const modal = document.getElementById("entrantsModal");
+  if(event.target === modal) closeEntrantsPopup();
+};
+
+/* ---------- Class code datalist + result-entry validation ---------- */
+function populateClassCodeList(){
+  const dl = document.getElementById("classCodeList");
+  dl.innerHTML = ALL_CLASSES.map(c => `<option value="${c}">`).join("");
+}
+
+document.getElementById("classCode").addEventListener("input", function(){
+  const code = this.value.trim().toUpperCase();
+  const warning = document.getElementById("classCodeWarning");
+  if(code && !ALL_CLASSES.includes(code)){
+    warning.textContent = `"${code}" isn't in this year's schedule (A1–A39, B1–B10, C1–C35, D1–D13, E1–E5, F1–F16, G1–G13, H1–H5, J1–J17, K1–K7, L1–L10, M1–M3). You can still save it if that's intentional.`;
+  } else {
+    warning.textContent = "";
+  }
+});
+
+/* ---------- Overall refresh ---------- */
+function updateAll(){
+  updateNextId();
+  updateLeaderboard();
+  updateClassResults();
+  updateEntrantDirectory();
+  updateTrophyList();
+  updateDashboard();
+}
+
+/* ---------- Toast notifications ---------- */
+function showToast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => el.classList.remove("show"), 2400);
+}
+
+/* ---------- Welcome / how-this-works card ---------- */
+function showIntro(){
+  document.getElementById("introCard").style.display = "block";
+}
+function dismissIntro(){
+  document.getElementById("introCard").style.display = "none";
+  localStorage.setItem("bhcsIntroDismissed", "1");
+}
+
+/* ---------- CSV import (entrants) ---------- */
+function parseCsvLine(line){
+  const out = [];
+  let cur = "";
+  let inQuotes = false;
+  for(let i = 0; i < line.length; i++){
+    const ch = line[i];
+    if(inQuotes){
+      if(ch === '"' && line[i+1] === '"'){ cur += '"'; i++; }
+      else if(ch === '"'){ inQuotes = false; }
+      else { cur += ch; }
+    } else {
+      if(ch === '"'){ inQuotes = true; }
+      else if(ch === ','){ out.push(cur); cur = ""; }
+      else { cur += ch; }
+    }
+  }
+  out.push(cur);
+  return out.map(s => s.trim());
+}
+
+document.getElementById("csvFile").addEventListener("change", function(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const text = e.target.result;
+    const lines = text.split(/\r?\n/);
+    let loaded = 0;
+
+    for(let i = 1; i < lines.length; i++){
+      if(!lines[i].trim()) continue;
+      const row = parseCsvLine(lines[i]);
+      if(row.length < 2) continue;
+
+      const name = row[0];
+      const id = row[1];
+      const genderRaw = (row[3] || "").toUpperCase();
+      const gender = (genderRaw === "M" || genderRaw === "F") ? genderRaw : (entrants[id]?.gender || "");
+
+      if(!name || !id) continue;
+
+      entrants[id] = { name, gender };
+      loaded++;
+    }
+
+    saveData();
+    updateAll();
+    showToast(`✓ Loaded ${loaded} entrant${loaded === 1 ? "" : "s"}`);
+    event.target.value = "";
+  };
+  reader.readAsText(file);
+});
+
+/* ---------- Backup / restore ---------- */
+function exportBackup(){
+  const backup = {
+    entrants,
+    classResults,
+    trophyRecords,
+    banksianEligibility,
+    exportedAt: new Date().toISOString()
+  };
+  downloadFile("bhcs-results-backup.json", JSON.stringify(backup, null, 2), "application/json");
+  showToast("✓ Backup downloaded");
+}
+
+document.getElementById("backupFile").addEventListener("change", function(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const backup = JSON.parse(e.target.result);
+      entrants = backup.entrants || {};
+      classResults = backup.classResults || {};
+      trophyRecords = backup.trophyRecords || {};
+      banksianEligibility = backup.banksianEligibility || {};
+      saveData();
+      updateAll();
+      showToast("✓ Backup imported");
+    } catch(err){
+      alert("That file doesn't look like a valid backup.");
+    }
+    event.target.value = "";
+  };
+  reader.readAsText(file);
+});
+
+function csvEscape(value){
+  value = String(value ?? "");
+  if(value.includes(",") || value.includes('"') || value.includes("\n")){
+    return `"${value.replace(/"/g, '""')}"`;
+  }
+  return value;
+}
+
+function exportResultsCSV(){
+  let rows = [["Class","1st ID(s)","1st Name(s)","2nd ID(s)","2nd Name(s)","3rd ID(s)","3rd Name(s)","HC ID(s)","HC Name(s)"]];
+
+  Object.keys(classResults).sort(sortClassCodes).forEach(classCode => {
+    const r = classResults[classCode];
+    const names = ids => (ids || []).map(id => entrants[id]?.name || "Unknown").join("; ");
+    rows.push([
+      classCode,
+      (r.first||[]).join("; "), names(r.first),
+      (r.second||[]).join("; "), names(r.second),
+      (r.third||[]).join("; "), names(r.third),
+      (r.hc||[]).join("; "), names(r.hc)
+    ]);
+  });
+
+  const csv = rows.map(row => row.map(csvEscape).join(",")).join("\n");
+  downloadFile("bhcs-class-results.csv", csv, "text/csv");
+}
+
+function exportTrophyCSV(){
+  let rows = [["No.","Trophy","Classes","Winner"]];
+  trophies.forEach(t => {
+    rows.push([t.id, t.name, t.desc, resolveTrophyWinnerText(t)]);
+  });
+  const csv = rows.map(row => row.map(csvEscape).join(",")).join("\n");
+  downloadFile("bhcs-trophy-winners.csv", csv, "text/csv");
+}
+
+function downloadFile(filename, content, type){
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ---------- Prize-giving sheet (print) ---------- */
+function buildCeremonyHTML(){
+  let rows = "";
+  trophies.forEach(t => {
+    rows += `<tr><td>${t.id}</td><td>${escapeHtml(t.name)}</td><td>${escapeHtml(t.desc)}</td><td>${escapeHtml(resolveTrophyWinnerText(t))}</td></tr>`;
+  });
+  return `
+    <h1>Broadway Horticultural &amp; Craft Show — Prize-Giving Sheet</h1>
+    <p>Generated ${new Date().toLocaleString()}</p>
+    <table>
+      <tr><th>No.</th><th>Trophy</th><th>Classes / basis</th><th>Winner</th></tr>
+      ${rows}
+    </table>
+  `;
+}
+
+function printCeremonySheet(){
+  document.getElementById("ceremonySheet").innerHTML = buildCeremonyHTML();
+  document.body.classList.add("print-ceremony");
+  window.print();
+  setTimeout(() => document.body.classList.remove("print-ceremony"), 500);
+}
+
+/* ---------- Reset ---------- */
+function clearEverything(){
+  if(confirm("Delete ALL saved entrants, results and trophy records? This cannot be undone.")){
+    localStorage.clear();
+    entrants = {};
+    classResults = {};
+    trophyRecords = {};
+    banksianEligibility = {};
+    updateAll();
+  }
+}
+
+/* ---------- Init ---------- */
+populateClassCodeList();
+if(!localStorage.getItem("bhcsIntroDismissed")){
+  showIntro();
+}
+updateAll();
+</script>
+
+</body>
+</html>
