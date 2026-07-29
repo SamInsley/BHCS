@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Enter the Show | Broadway Horticultural & Craft Show</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body { background: #f4faf3; }
+
+    .entry-page {
+      margin-top: 2rem;
+      margin-bottom: 3rem;
+      background: white;
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    }
+
+    .entry-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #102015;
+    }
+
+    .entry-hero p {
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .class-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .class-btn {
+      border: 2px solid;
+      border-radius: 999px;
+      padding: 0.75rem 1.1rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: white;
+      transition: all 0.15s ease;
+    }
+
+    .class-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .class-btn.selected {
+      background: #111 !important;
+      border-color: #111 !important;
+      color: white !important;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.25);
+    }
+
+    .entry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .entry-card {
+      background: #fbfdf9;
+      border: 1px solid #e2eadf;
+      border-radius: 18px;
+      padding: 1.5rem;
+    }
+
+    .entry-card h2 {
+      margin-top: 0;
+      color: #102015;
+    }
+
+    #entryList {
+      padding-left: 1.2rem;
+      line-height: 1.8;
+      font-weight: 600;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    form input {
+      display: block;
+      width: 100%;
+      margin-top: 0.35rem;
+      padding: 0.8rem;
+      border-radius: 12px;
+      border: 1px solid #ccd8c8;
+      font-size: 1rem;
+    }
+
+    .submit-btn {
+      background: #2f5d34;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .remove-entry-btn {
+      margin-left: 0.6rem;
+      border: none;
+      border-radius: 999px;
+      background: #b0005a;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      cursor: pointer;
+    }
+    
+    .remove-entry-btn:hover {
+      background: #7d0040;
+    }
+
+    .submit-btn:hover { background: #244828; }
+
+    #confirmation {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      background: #edf8e8;
+      color: #2f5d34;
+      font-weight: 700;
+    }
+
+    @media (max-width: 800px) {
+      .entry-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a class="navlink" href="index.html">Home</a>
+      <a class="navlink" href="about.html">About</a>
+      <a class="navlink" href="gallery.html">Gallery & Stalls</a>
+      <a class="navlink" href="stall.html">Stall Application</a>
+      <a class="navlink" href="contact.html">Contact</a>
+      <a class="navlink" href="schedule.html">Show Schedule</a>
+      <a class="navlink" href="entries.html">Enter the Show</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container entry-page">
+
+  <section class="entry-hero">
+    <h1>Enter the 2026 Show</h1>
+    <p>Here you can find an online entry form for the 2026 Broadway Horticultural and Craft Show.
+      All adult classes are 30 pence to enter and child classes are 10 pence (apart from E5 which is £5).
+      You will be expected to pay this in full (in cash) when bringing in your entries on the morning of the show
+      (this includes any entries you submitted but did not fulfil). All categories are single entry with the exception of
+      Section H which you may enter multiple times, to do this just click on the entry button as many times as you require.
+
+      Before filling in this entry form please make sure you have read the schedule and you understand the rules and
+      restrictions associated with each class (such as size restrictions) as these are not present on the entry form.
+      You should receive an email shortly after submitting confirming we have received your entry, including all categories entered. 
+
+      This entry form will close at 12pm on Saturday 5th of September.
+      If you have any queries about your entry, need to amend or confirm what you have entered
+      then please contact us as soon as possible to ensure we can get this ready for the show.</p>
+  </section>
+
+  <section class="entry-card">
+    <h2>Choose Your Classes</h2>
+    <div class="class-buttons" id="classButtons"></div>
+  </section>
+
+  <div class="entry-grid">
+
+    <section class="entry-card">
+      <h2>Your Selected Entries</h2>
+      <ul id="entryList"></ul>
+    </section>
+
+    <section class="entry-card">
+      <h2>Your Details</h2>
+
+      <form id="entryForm">
+        <label>Name<input type="text" id="name" required></label>
+        <label>Address<input type="text" id="address" required></label>
+        <label>Email<input type="email" id="email" required></label>
+        <label>Phone Number<input type="tel" id="phone"></label>
+        <button class="submit-btn" type="submit" id="submitBtn">Submit Entry</button>
+      </form>
+
+      <p id="confirmation" style="display:none;">
+        Thank you. Your entry has been submitted.
+      </p>
+      <p id="submissionError" style="display:none; margin-top:1rem; padding:1rem; border-radius:12px; background:#fdeaea; color:#8a1f1f; font-weight:700;">
+      </p>
+    </section>
+
+  </div>
+
+</main>
+
+<script>
+let selectedEntries = [];
+
+const sectionStyles = {
+  A: { emoji: "🥕", colour: "#d60000" },
+  B: { emoji: "🍎", colour: "#009b22" },
+  C: { emoji: "🌸", colour: "#d4147a" },
+  D: { emoji: "🪴", colour: "#7b352a" },
+  E: { emoji: "💐", colour: "#003366" }, // dark blue
+  F: { emoji: "🍯", colour: "#8b4a8b" },
+  G: { emoji: "🍰", colour: "#c46a2b" },
+  H: { emoji: "🍾", colour: "#b0005a" },
+  J: { emoji: "🧵", colour: "#66ccff" }, // light blue
+  K: { emoji: "📷", colour: "#6b8e23" },
+  L: { emoji: "🎨", colour: "#e2a23a" },
+  M: { emoji: "👨‍👩‍👧‍👦", colour: "#c58ac9" }
+};
+
+const classes = [
+  ["A1","5 different veg"],["A2","5 runner beans"],["A3","Longest runner bean"],["A4","5 dwarf beans"],["A5","2 parsnips"],["A6","3 carrots"],["A7","4 white potatoes"],["A8","4 coloured potatoes"],["A9","Onion family collection"],["A10","3 onions under 250g"],["A11","3 onions over 250g"],["A12","9 large shallots"],["A13","6 small shallots"],["A14","Heaviest marrow"],["A15","Pair of marrows"],["A16","2 squash"],["A17","3 courgettes"],["A18","2 leeks"],["A19","1 cabbage"],["A20","5 colourful veg"],["A21","5 tomatoes"],["A22","10 cherry tomatoes"],["A23","Cherry tomato truss"],["A24","Largest beefsteak tomato"],["A25","1 cauliflower"],["A26","3 beetroot"],["A27","2 cucumbers"],["A28","2 sweet corn"],["A29","2 sweet peppers"],["A30","6 chillies"],["A31","Globe artichoke"],["A32","2 aubergines"],["A33","Romanesco cauliflower"],["A34","2 celery"],["A35","2 kohlrabi"],["A36","3 turnips"],["A37","2 swedes"],["A38","2 unusual veg"],["A39","Ugliest vegetable"],
+
+  ["B1","5 dessert apples"],["B2","5 cooking apples"],["B3","5 dessert pears"],["B4","6 plums"],["B5","10 raspberries"],["B6","Bunch of grapes"],["B7","10 blackberries"],["B8","1 melon"],["B9","10 crab apples"],["B10","Any other fruit"],
+
+  ["C1","1 large rose bloom"],["C2","3 large rose blooms"],["C3","3 cluster rose stems"],["C4","1 cluster rose stem"],["C5","Rose for scent"],["C6","3 cactus dahlias"],["C7","3 decorative dahlias"],["C8","5 small dahlias"],["C9","5 pom-pom dahlias"],["C10","5 small cactus dahlias"],["C11","3 large dahlias"],["C12","1 dahlia bloom"],["C13","3 vases dahlias"],["C14","Pom-pom dahlias"],["C15","Cactus dahlias"],["C16","Decorative dahlias"],["C17","3 spray chrysanthemums"],["C18","Sunflowers"],["C19","Largest sunflower head"],["C20","Carnations / pinks"],["C21","1 gladiolus spike"],["C22","3 gladioli spikes"],["C23","5 fuchsia heads"],["C24","Annuals"],["C25","Herbaceous perennials"],["C26","Rose button-hole"],["C27","Favourite flower"],["C28","Many flower varieties"],["C29","4 hosta leaves"],["C30","4 herb varieties"],["C31","3 fuchsia stems"],["C32","5 penstemon stems"],["C33","3 aster stems"],["C34","Autumn berries"],["C35","Ornamental grasses"],
+
+  ["D1","Pot-grown fuchsia"],["D2","Triphylla fuchsia"],["D3","Standard fuchsia"],["D4","Foliage plant"],["D5","Cactus / succulent"],["D6","Patio pot"],["D7","Alpine plant"],["D8","Flowering begonia"],["D9","Pelargonium / geranium"],["D10","Orchid"],["D11","Air plant"],["D12","Kokedama"],["D13","Any other pot plant"],
+
+  ["E1","Basket of flowers"],["E2","Bonfire Night arrangement"],["E3","Wedding corsage"],["E4","Floating flowers"],["E5","Imposed floral class"],
+
+  ["F1","Stone fruit jam"],["F2","Strawberry jam"],["F3","Raspberry jam"],["F4","Soft fruit jam"],["F5","Fruit jelly"],["F6","Savoury fruit jelly"],["F7","Marmalade"],["F8","Lemon curd"],["F9","Sweet chutney"],["F10","Spicy chutney"],["F11","Pickled fruit / veg"],["F12","Fruit butter"],["F13","Mint sauce"],["F14","Ketchup"],["F15","Mustard"],["F16","Honey"],
+
+  ["G1","Chocolate flapjacks"],["G2","Fruit scones"],["G3","Gingerbread loaf"],["G4","Vegan banana bread"],["G5","Olive bread loaf"],["G6","Sausage rolls"],["G7","Quiche Lorraine"],["G8","Halloween cupcakes"],["G9","Iced Bakewell slices"],["G10","Caramel cake"],["G11","Gluten free muffins"],["G12","Coffee & walnut cake"],["G13","Gingerbread biscuit"],
+
+  ["H1","Wine / beer / cider"],["H2","Sloe gin"],["H3","Infused gin"],["H4","Homemade liqueur"],["H5","Non-alcoholic cordial"],
+
+  ["J1","Handmade toy"],["J2","Wood / metal craft"],["J3","Reflections drawing"],["J4","Knitted garment"],["J5","Crochet item"],["J6","Floral embroidery"],["J7","Woodland scene"],["J8","Greetings card"],["J9","Patchwork"],["J10","Felted animal / bird"],["J11","Handwriting"],["J12","Bunting"],["J13","Flower / plant craft"],["J14","Origami"],["J15","Halloween wreath"],["J16","Glass item"],["J17","Any other craft"],
+
+  ["K1","Broadway Autumn Show"],["K2","My Pet"],["K3","The Night Sky"],["K4","Bridge(s)"],["K5","My Secret Broadway"],["K6","Fungus / fungi"],["K7","Red"],
+
+  ["L1","Clown face plate"],["L2","Pasta necklace"],["L3","Handwriting poem"],["L4","Halloween spider"],["L5","Handwriting poem"],["L6","Veg garden seed tray"],["L7","Fruit / veg alien"],["L8","Tallest sunflower"],["L9","Xmas card"],["L10","Magazine cover picture"],
+
+  ["M1","Egyptian mummy"],["M2","Monster facemasks"],["M3","Edible creepy-crawlies"]
+];
+
+function buildButtons() {
+  const holder = document.getElementById("classButtons");
+  holder.innerHTML = "";
+
+  classes.forEach(([code, label]) => {
+    const section = code.charAt(0);
+    const style = sectionStyles[section];
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "class-btn";
+    button.dataset.entry = code;
+    button.textContent = `${style.emoji} ${code} – ${label}`;
+    button.style.color = style.colour;
+    button.style.borderColor = style.colour;
+    button.style.background = `${style.colour}18`;
+
+    button.onclick = () => toggleEntry(code, label, button);
+
+    holder.appendChild(button);
+  });
+}
+
+function toggleEntry(code, label, button) {
+  const section = code.charAt(0);
+
+  // Section H allows multiple entries in the same class
+  if (section === "H") {
+  selectedEntries.push({ code, label });
+  button.classList.add("selected");
+  updateEntryList();
+  return;
+}
+
+  const existingIndex = selectedEntries.findIndex(item => item.code === code);
+
+  if (existingIndex === -1) {
+    selectedEntries.push({ code, label });
+    button.classList.add("selected");
+  } else {
+    selectedEntries.splice(existingIndex, 1);
+    button.classList.remove("selected");
+  }
+
+  selectedEntries.sort((a, b) => a.code.localeCompare(b.code, undefined, { numeric: true }));
+  updateEntryList();
+}
+
+function updateEntryList() {
+  const list = document.getElementById("entryList");
+  list.innerHTML = "";
+
+  if (selectedEntries.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "No classes selected yet.";
+    list.appendChild(li);
+    return;
+  }
+
+  selectedEntries.forEach((entry, index) => {
+    const li = document.createElement("li");
+
+    const text = document.createElement("span");
+    text.textContent = `${entry.code} – ${entry.label}`;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "remove-entry-btn";
+    removeBtn.textContent = "Remove";
+
+    removeBtn.onclick = () => {
+      selectedEntries.splice(index, 1);
+
+      const stillSelected = selectedEntries.some(item => item.code === entry.code);
+      const button = document.querySelector(`.class-btn[data-entry="${entry.code}"]`);
+
+      if (!stillSelected && button) {
+        button.classList.remove("selected");
+      }
+
+      updateEntryList();
+    };
+
+    li.appendChild(text);
+    li.appendChild(removeBtn);
+    list.appendChild(li);
+  });
+}
+
+buildButtons();
+updateEntryList();
+
+/* =====================================================================
+   >>> PASTE YOUR APPS SCRIPT WEB APP URL HERE <<<
+   After deploying Code.gs as a Web App, Google gives you a URL ending
+   in /exec — paste it below, replacing the placeholder text.
+   ===================================================================== */
+const APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+document.getElementById("entryForm").addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  if (selectedEntries.length === 0) {
+    alert("Please select at least one class.");
+    return;
+  }
+
+  const selectedText = selectedEntries
+    .map(entry => `${entry.code} - ${entry.label}`)
+    .join(", ");
+
+  const formData = new FormData();
+  formData.append("name", document.getElementById("name").value);
+  formData.append("address", document.getElementById("address").value);
+  formData.append("email", document.getElementById("email").value);
+  formData.append("phone", document.getElementById("phone").value);
+  formData.append("entries", selectedText);
+
+  const submitBtn = document.getElementById("submitBtn");
+  const confirmationEl = document.getElementById("confirmation");
+  const errorEl = document.getElementById("submissionError");
+
+  confirmationEl.style.display = "none";
+  errorEl.style.display = "none";
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting…";
+
+  try {
+    const response = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.status === "success") {
+      confirmationEl.style.display = "block";
+      document.getElementById("entryForm").reset();
+      selectedEntries = [];
+      document.querySelectorAll(".class-btn").forEach(btn => btn.classList.remove("selected"));
+      updateEntryList();
+    } else {
+      // The server understood the request but rejected it (e.g. missing
+      // field) — show its actual message, and don't clear their selections.
+      errorEl.textContent = "There was a problem with your entry: " + (result.message || "please check your details and try again.");
+      errorEl.style.display = "block";
+    }
+
+  } catch (err) {
+    // A genuine network failure, or the Apps Script URL above hasn't
+    // been set up yet — either way, say so instead of a false "thank you".
+    errorEl.textContent = "Sorry, we couldn't submit your entry (a connection problem, or the entry system may be temporarily down). Please try again, or contact us directly so we can make sure your entry is recorded.";
+    errorEl.style.display = "block";
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Entry";
+  }
+});
+</script>
+
+</body>
+</html>
