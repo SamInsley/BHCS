@@ -206,6 +206,9 @@
       </p>
       <p id="submissionError" style="display:none; margin-top:1rem; padding:1rem; border-radius:12px; background:#fdeaea; color:#8a1f1f; font-weight:700;">
       </p>
+      <p id="submittingNotice" style="display:none; margin-top:1rem; padding:1rem; border-radius:12px; background:#fff6e0; color:#8a6800; font-weight:700;">
+        ⏳ Submitting your entry — this can take up to 20–30 seconds. Please don't close this page, go back, or click Submit again — just wait for a confirmation or error message to appear here.
+      </p>
     </section>
 
   </div>
@@ -377,11 +380,20 @@ document.getElementById("entryForm").addEventListener("submit", async function(e
   const submitBtn = document.getElementById("submitBtn");
   const confirmationEl = document.getElementById("confirmation");
   const errorEl = document.getElementById("submissionError");
+  const submittingEl = document.getElementById("submittingNotice");
 
   confirmationEl.style.display = "none";
   errorEl.style.display = "none";
+  submittingEl.style.display = "block";
   submitBtn.disabled = true;
   submitBtn.textContent = "Submitting…";
+
+  // Warn if they try to close the tab / navigate away before we've heard back.
+  const warnBeforeClose = (e) => {
+    e.preventDefault();
+    e.returnValue = "";
+  };
+  window.addEventListener("beforeunload", warnBeforeClose);
 
   try {
     const response = await fetch(APPS_SCRIPT_URL, {
@@ -410,6 +422,8 @@ document.getElementById("entryForm").addEventListener("submit", async function(e
     errorEl.textContent = "Sorry, we couldn't submit your entry (a connection problem, or the entry system may be temporarily down). Please try again, or contact us directly so we can make sure your entry is recorded.";
     errorEl.style.display = "block";
   } finally {
+    window.removeEventListener("beforeunload", warnBeforeClose);
+    submittingEl.style.display = "none";
     submitBtn.disabled = false;
     submitBtn.textContent = "Submit Entry";
   }
