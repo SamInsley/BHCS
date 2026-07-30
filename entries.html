@@ -207,7 +207,7 @@
       <p id="submissionError" style="display:none; margin-top:1rem; padding:1rem; border-radius:12px; background:#fdeaea; color:#8a1f1f; font-weight:700;">
       </p>
       <p id="submittingNotice" style="display:none; margin-top:1rem; padding:1rem; border-radius:12px; background:#fff6e0; color:#8a6800; font-weight:700;">
-        ⏳ Submitting your entry — this can take up to 20–30 seconds. Please don't close this page, go back, or click Submit again — just wait for a confirmation or error message to appear here.
+        ⏳ Submitting your entry — this usually takes a few seconds, up to about 30. Please don't close this page or click Submit again while this message is showing.
       </p>
     </section>
 
@@ -356,7 +356,7 @@ updateEntryList();
    After deploying Code.gs as a Web App, Google gives you a URL ending
    in /exec — paste it below, replacing the placeholder text.
    ===================================================================== */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfrUcARxaJFO89czQEj86KvTAV18CtZ9P4PbBnuG221A3sYwKyHg8PqqokaRCUmOQ2Vw/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwkq7In90J_ywvg-VOCKey2H0wDO4xB0JENL3zlj9As6JKDzJLD6KUI1dkdMY5Lsz9wHA/exec";
 
 document.getElementById("entryForm").addEventListener("submit", async function(event) {
   event.preventDefault();
@@ -370,12 +370,13 @@ document.getElementById("entryForm").addEventListener("submit", async function(e
     .map(entry => `${entry.code} - ${entry.label}`)
     .join(", ");
 
-  const formData = new FormData();
-  formData.append("name", document.getElementById("name").value);
-  formData.append("address", document.getElementById("address").value);
-  formData.append("email", document.getElementById("email").value);
-  formData.append("phone", document.getElementById("phone").value);
-  formData.append("entries", selectedText);
+  const payload = {
+    name: document.getElementById("name").value,
+    address: document.getElementById("address").value,
+    email: document.getElementById("email").value,
+    phone: document.getElementById("phone").value,
+    entries: selectedText
+  };
 
   const submitBtn = document.getElementById("submitBtn");
   const confirmationEl = document.getElementById("confirmation");
@@ -395,10 +396,19 @@ document.getElementById("entryForm").addEventListener("submit", async function(e
   };
   window.addEventListener("beforeunload", warnBeforeClose);
 
+  // Don't let the page wait forever — if nothing comes back in a reasonable
+  // time, stop waiting and tell the user, rather than leaving them stuck
+  // on "please wait" indefinitely with no way to know if it's actually stuck.
+  const TIMEOUT_MS = 30000;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
   try {
     const response = await fetch(APPS_SCRIPT_URL, {
       method: "POST",
-      body: formData
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      signal: controller.signal
     });
 
     const result = await response.json();
@@ -417,11 +427,19 @@ document.getElementById("entryForm").addEventListener("submit", async function(e
     }
 
   } catch (err) {
-    // A genuine network failure, or the Apps Script URL above hasn't
-    // been set up yet — either way, say so instead of a false "thank you".
-    errorEl.textContent = "Sorry, we couldn't submit your entry (a connection problem, or the entry system may be temporarily down). Please try again, or contact us directly so we can make sure your entry is recorded.";
+    if (err.name === "AbortError") {
+      // We stopped waiting — but the request may well have completed on
+      // Google's side a moment later. Don't invite an immediate resubmit,
+      // since that risks a duplicate entry if it did go through.
+      errorEl.textContent = "This is taking much longer than it should, so we've stopped waiting. Your entry may still have gone through — please check your email for a confirmation before submitting again. If nothing arrives within a few minutes, contact us directly rather than resubmitting, so we don't end up with a duplicate.";
+    } else {
+      // A genuine network failure, or the Apps Script URL above hasn't
+      // been set up yet — either way, say so instead of a false "thank you".
+      errorEl.textContent = "Sorry, we couldn't submit your entry (a connection problem, or the entry system may be temporarily down). Please try again, or contact us directly so we can make sure your entry is recorded.";
+    }
     errorEl.style.display = "block";
   } finally {
+    clearTimeout(timeoutId);
     window.removeEventListener("beforeunload", warnBeforeClose);
     submittingEl.style.display = "none";
     submitBtn.disabled = false;
