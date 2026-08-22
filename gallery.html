@@ -5,6 +5,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Gallery & Stalls | Broadway Horticultural & Craft Show</title>
   <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .site-plan-block { margin-bottom: 1.75rem; }
+    .site-plan-block h3 { margin-bottom: 0.5rem; }
+    .site-plan-img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #e2eadf;
+      border-radius: 14px;
+      display: block;
+    }
+
+    .directory-group { margin-bottom: 1.5rem; }
+    .directory-group h3 {
+      margin-bottom: 0.5rem;
+      color: #2f5d34;
+    }
+    .directory-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0.4rem 1rem;
+    }
+    .directory-list li {
+      font-weight: 600;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid #eef3ec;
+    }
+    .stall-num {
+      display: inline-block;
+      min-width: 1.8rem;
+      padding: 0.1rem 0.5rem;
+      margin-right: 0.5rem;
+      border-radius: 999px;
+      background: #2f5d34;
+      color: white;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
@@ -34,6 +76,125 @@
       <img src="images/gallery3.JPG">
       <img src="images/gallery4.JPG">
       <img src="images/gallery5.JPG">
+    </div>
+  </section>
+
+  <!-- Site Plan -->
+  <section class="card">
+    <h2>Find Your Way Around</h2>
+    <p>Where everything is on the day — the Main Green &amp; Marquee area, and the Greens.</p>
+
+    <div class="site-plan-block">
+      <h3>Main Green &amp; Marquee (Stalls 1–23)</h3>
+      <img class="site-plan-img" src="images/site-plan-main-green.png" alt="Site plan showing the Marquee, toilets, water point and stalls 1 to 23 around the Main Green">
+    </div>
+
+    <div class="site-plan-block">
+      <h3>The Greens (Stalls 24–55)</h3>
+      <img class="site-plan-img" src="images/site-plan-greens.png" alt="Site plan showing stalls 24 to 55 across Greens 1, 2, 3, 4, 5, 6 and 7">
+    </div>
+  </section>
+
+  <!-- Stallholder Directory -->
+  <section class="card">
+    <h2>2026 Stallholder Directory</h2>
+    <p>Every stall number from the site plan above, so you can find exactly who's where.</p>
+
+    <div class="directory-group">
+      <h3>Main Green &amp; Marquee</h3>
+      <ul class="directory-list">
+        <li><span class="stall-num">1</span> Raffle</li>
+        <li><span class="stall-num">2</span> St Michaels Church Teas</li>
+        <li><span class="stall-num">3</span> Park Pottery</li>
+        <li><span class="stall-num">4</span> Crafty Cave</li>
+        <li><span class="stall-num">5</span> Kaz &amp; Annies (Ceramics)</li>
+        <li><span class="stall-num">6</span> Not Just Pebbles</li>
+        <li><span class="stall-num">7</span> Little Crafters (Mixed knitting / crochet etc)</li>
+        <li><span class="stall-num">8</span> Coffee Boutique</li>
+        <li><span class="stall-num">9</span> Arianna's Treats &amp; Cakes</li>
+        <li><span class="stall-num">10</span> Girl Guides &amp; Youth Club</li>
+        <li><span class="stall-num">11</span> Michelle Richards Jewellery</li>
+        <li><span class="stall-num">12</span> Kala Woodcock Knotting</li>
+        <li><span class="stall-num">13</span> Cats Protection</li>
+        <li><span class="stall-num">14</span> Sosh Goldstein Spinning</li>
+        <li><span class="stall-num">15</span> Gemmstones Jewellery</li>
+        <li><span class="stall-num">16</span> Craft Landscapes</li>
+        <li><span class="stall-num">17</span> Dodo Crafts</li>
+        <li><span class="stall-num">18</span> J &amp; T Feathers</li>
+        <li><span class="stall-num">19</span> Woof of the Woo</li>
+        <li><span class="stall-num">20</span> Watercolour Whimsey</li>
+        <li><span class="stall-num">21</span> Speckled Hen (Ceramics)</li>
+        <li><span class="stall-num">22</span> Made by Betsy (Resin)</li>
+        <li><span class="stall-num">23</span> Tony The Stick</li>
+      </ul>
+    </div>
+
+    <div class="directory-group">
+      <h3>Green 6</h3>
+      <ul class="directory-list">
+        <li><span class="stall-num">24</span> Scouts BBQ</li>
+      </ul>
+    </div>
+
+    <div class="directory-group">
+      <h3>Green 5</h3>
+      <ul class="directory-list">
+        <li><span class="stall-num">25</span> Rachael Harwood Willow</li>
+        <li><span class="stall-num">26</span> Becky Muir Ceramics</li>
+        <li><span class="stall-num">27</span> Mojo Scent (Melts)</li>
+        <li><span class="stall-num">28</span> Judith Mercer (Cards)</li>
+        <li><span class="stall-num">29</span> Don's Wood</li>
+        <li><span class="stall-num">30</span> Natty Crafts</li>
+      </ul>
+    </div>
+
+    <div class="directory-group">
+      <h3>Green 1</h3>
+      <ul class="directory-list">
+        <li><span class="stall-num">31</span> Woodys Flowers</li>
+      </ul>
+    </div>
+
+    <div class="directory-group">
+      <h3>Green 2</h3>
+      <ul class="directory-list">
+        <li><span class="stall-num">32</span> Ile Darisimi (African print fabric items)</li>
+        <li><span class="stall-num">33</span> Forget Me Not (Clay)</li>
+        <li><span class="stall-num">34</span> Broadway Crafters</li>
+        <li><span class="stall-num">35</span> Mr Woodbeard (Wood)</li>
+        <li><span class="stall-num">36</span> Stef Abbs Jewellery</li>
+        <li><span class="stall-num">37</span> Rachel Davids (handpainted Xmas cards)</li>
+        <li><span class="stall-num">38</span> Lou St Aubyn Artist</li>
+        <li><span class="stall-num">39</span> Ridge &amp; Furrow Ceramics</li>
+        <li><span class="stall-num">40</span> Stones for the Soul</li>
+        <li><span class="stall-num">41</span> Natures Inspiration</li>
+      </ul>
+    </div>
+
+    <div class="directory-group">
+      <h3>Greens 3 &amp; 4</h3>
+      <ul class="directory-list">
+        <li><span class="stall-num">42</span> Birds of Prey</li>
+        <li><span class="stall-num">43</span> RSPB</li>
+        <li><span class="stall-num">44</span> Bobba Jay Birdboxes</li>
+        <li><span class="stall-num">45</span> Merry May</li>
+        <li><span class="stall-num">46</span> Chiropractor</li>
+        <li><span class="stall-num">47</span> GWSR</li>
+        <li><span class="stall-num">48</span> Emma Cockburn Artist</li>
+        <li><span class="stall-num">49</span> Worcs Wildlife</li>
+      </ul>
+    </div>
+
+    <div class="directory-group">
+      <h3>Green 7 &amp; near the phone boxes</h3>
+      <ul class="directory-list">
+        <li><span class="stall-num">50</span> Annakins</li>
+        <li><span class="stall-num">51</span> Cotswold Craft Co</li>
+        <li><span class="stall-num">52</span> Lucy Loves &amp; Heartfelt</li>
+        <li><span class="stall-num">53</span> Made by Tracy B</li>
+        <li><span class="stall-num">54</span> Ballowmill (Dog leads etc)</li>
+        <li><span class="stall-num">55</span> Victoria Lilly (Soaps)</li>
+      </ul>
     </div>
   </section>
 
