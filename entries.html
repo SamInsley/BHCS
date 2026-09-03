@@ -210,6 +210,12 @@
 
 </main>
 
+<!-- Hidden iframe used as the submission target so this works reliably in Safari.
+     fetch() with mode:no-cors can be silently blocked by Safari's Intelligent
+     Tracking Prevention; a real form POST targeting a hidden iframe is a normal
+     page navigation and isn't affected. -->
+<iframe name="hiddenFormFrame" style="display:none;"></iframe>
+
 <script>
 let selectedEntries = [];
 
@@ -358,19 +364,35 @@ document.getElementById("entryForm").addEventListener("submit", function(event) 
     .map(entry => `${entry.code} - ${entry.label}`)
     .join(", ");
 
-  const formData = new FormData();
+  // Build a real (invisible) HTML form and submit it to the hidden iframe.
+  // This is a genuine page-level POST, not a background fetch(), so it
+  // isn't affected by Safari's Intelligent Tracking Prevention the way
+  // fetch()+no-cors requests to third-party domains can be.
+  const googleForm = document.createElement("form");
+  googleForm.action = "https://docs.google.com/forms/d/e/1FAIpQLScE8nN6XIkJ1EsWLpoqebWYdElo78qIgnvSzpY7AGevQugU1w/formResponse";
+  googleForm.method = "POST";
+  googleForm.target = "hiddenFormFrame";
+  googleForm.style.display = "none";
 
-  formData.append("entry.433563710", document.getElementById("name").value);
-  formData.append("entry.1007946641", document.getElementById("address").value);
-  formData.append("entry.1062495897", document.getElementById("email").value);
-  formData.append("entry.1685688433", document.getElementById("phone").value);
-  formData.append("entry.1761290965", selectedText);
+  const fields = {
+    "entry.433563710": document.getElementById("name").value,
+    "entry.1007946641": document.getElementById("address").value,
+    "entry.1062495897": document.getElementById("email").value,
+    "entry.1685688433": document.getElementById("phone").value,
+    "entry.1761290965": selectedText
+  };
 
-  fetch("https://docs.google.com/forms/d/e/1FAIpQLScE8nN6XIkJ1EsWLpoqebWYdElo78qIgnvSzpY7AGevQugU1w/formResponse", {
-    method: "POST",
-    mode: "no-cors",
-    body: formData
+  Object.entries(fields).forEach(([entryName, value]) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = entryName;
+    input.value = value;
+    googleForm.appendChild(input);
   });
+
+  document.body.appendChild(googleForm);
+  googleForm.submit();
+  googleForm.remove();
 
   document.getElementById("confirmation").style.display = "block";
   document.getElementById("entryForm").reset();
