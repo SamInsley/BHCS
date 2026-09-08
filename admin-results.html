@@ -346,7 +346,7 @@
 <div class="card">
   <h2><span class="step-num">1</span> Entrants</h2>
   <h3>Upload entrants CSV</h3>
-  <p class="small-note">Columns: <strong>NAME, NO</strong> (a 3rd column ENTRIES is ignored if present). You don't need to supply gender — the two Handicraft cups will only ask about a specific person, and only if they're actually in contention for that cup.</p>
+  <p class="small-note">Upload the "Category Matrix" spreadsheet exported from the entries system (Name in the first column — the class columns after it are ignored here). Each entrant's ID matches their actual row number in that spreadsheet (row 2 = ID 2, and so on — ID 1 is never used, since that's the header row). Meant as a single import once entries close. Anyone added after that (e.g. on the day) should go through "Add / edit an entrant manually" below instead.</p>
   <input type="file" id="csvFile" accept=".csv">
   <br>
   <button onclick="openEntrantsPopup()">Show current entrants</button>
@@ -1115,19 +1115,21 @@ document.getElementById("csvFile").addEventListener("change", function(event){
     const lines = text.split(/\r?\n/);
     let loaded = 0;
 
+    // Row 1 is the header ("Name" + one column per class). The first
+    // actual entrant is on row 2 of the spreadsheet, so they get ID 2 —
+    // matching the real row number, not a plain 1-2-3 count. ID 1 is
+    // simply never used, since there's no row 1 person.
     for(let i = 1; i < lines.length; i++){
       if(!lines[i].trim()) continue;
       const row = parseCsvLine(lines[i]);
-      if(row.length < 2) continue;
+      if(row.length < 1) continue;
 
       const name = row[0];
-      const id = row[1];
-      const genderRaw = (row[3] || "").toUpperCase();
-      const gender = (genderRaw === "M" || genderRaw === "F") ? genderRaw : (entrants[id]?.gender || "");
+      if(!name) continue;
 
-      if(!name || !id) continue;
-
-      entrants[id] = { name, gender };
+      const rowNumber = i + 1; // lines[] is 0-indexed; spreadsheet rows are 1-indexed
+      const id = String(rowNumber);
+      entrants[id] = { name, gender: "" };
       loaded++;
     }
 
