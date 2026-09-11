@@ -162,6 +162,14 @@
 <main class="container entry-page">
 
   <section class="entry-hero">
+    <h1>Entries Are Now Closed</h1>
+    <p>Entries for this year's show have now closed. Thank you to everyone who entered!
+      The entry form will reopen ahead of next year's show — please check back nearer the time.</p>
+  </section>
+
+  <!--
+
+  <section class="entry-hero">
     <h1>Enter the 2026 Show</h1>
     <p>Here you can find an online entry form for the 2026 Broadway Horticultural and Craft Show.
       All adult classes are 30 pence to enter and child classes are 10 pence (apart from E5 which is £5).
@@ -210,12 +218,15 @@
 
 </main>
 
+  -->
+
 <!-- Hidden iframe used as the submission target so this works reliably in Safari.
      fetch() with mode:no-cors can be silently blocked by Safari's Intelligent
      Tracking Prevention; a real form POST targeting a hidden iframe is a normal
      page navigation and isn't affected. -->
-<iframe name="hiddenFormFrame" style="display:none;"></iframe>
+<!-- <iframe name="hiddenFormFrame" style="display:none;"></iframe> -->
 
+<!--
 <script>
 let selectedEntries = [];
 
@@ -402,6 +413,7 @@ document.getElementById("entryForm").addEventListener("submit", function(event) 
   updateEntryList();
 });
 </script>
+-->
 
 </body>
 </html>
