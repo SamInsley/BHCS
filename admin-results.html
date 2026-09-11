@@ -249,6 +249,7 @@
   .trophy-desc{font-size:13px; color:var(--ink-soft); margin:2px 0 6px;}
   .trophy-winner{font-size:16px; margin-top:4px;}
   .trophy-winner .none{color:#999; font-style:italic;}
+  .trophy-runnerup{ font-size:13px; color:#7a6a58; font-style:italic; margin-top:2px; }
   .tag{
     display:inline-block;
     font-size:11px;
@@ -307,6 +308,110 @@
     body.print-ceremony{ padding:0; background:none; }
   }
 
+  /* Entries-per-category sheet - hidden on screen, shown only when printing */
+  #categoryCountsSheet{ display:none; }
+  #categoryCountsSheet h1{ text-align:left; font-family:var(--font-display); font-size:15pt; margin:0 0 2mm; }
+  #categoryCountsSheet .cc-meta{ font-size:8.5pt; color:#555; margin-bottom:4mm; }
+  #categoryCountsSheet .cc-columns{
+    display: flex;
+    gap: 6mm;
+  }
+  #categoryCountsSheet .cc-column{
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  #categoryCountsSheet .cc-row{
+    display:flex;
+    justify-content:space-between;
+    gap: 3mm;
+    padding: 0.5mm 0;
+    border-bottom: 0.2mm solid #ddd;
+    font-size: 9pt;
+    line-height: 1.2;
+  }
+  #categoryCountsSheet .cc-row strong{ font-weight:700; }
+  @page{ size: A4; margin: 12mm; }
+  @media print{
+    body.print-category-counts > *:not(#categoryCountsSheet){ display:none !important; }
+    body.print-category-counts #categoryCountsSheet{ display:block !important; }
+    body.print-category-counts{ padding:0; background:none; }
+  }
+
+  /* Class record sheets - hidden on screen, shown only when printing */
+  #classSheetsPrint{ display:none; }
+  #classSheetsPrint .class-sheet-heading{ font-family:var(--font-display); font-size:14pt; margin:0 0 4mm; }
+  #classSheetsPrint .class-sheet-grid{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5mm 6mm;
+  }
+  #classSheetsPrint .class-sheet{
+    flex: 0 0 calc(50% - 3mm);
+    display:flex;
+    border: 1.5pt solid #000;
+    page-break-inside: avoid;
+  }
+  #classSheetsPrint .class-sheet-label{
+    width: 16mm;
+    flex: none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:12pt;
+    border-right: 1.5pt solid #000;
+    text-align:center;
+    padding: 1.5mm;
+  }
+  #classSheetsPrint .class-sheet-rows{ flex:1; display:flex; flex-direction:column; min-width:0; }
+  #classSheetsPrint .class-sheet-row{
+    display:flex;
+    border-bottom: 1pt solid #000;
+    min-height: 8mm;
+  }
+  #classSheetsPrint .class-sheet-row:last-child{ border-bottom:none; }
+  #classSheetsPrint .class-sheet-place{
+    width: 9mm;
+    flex: none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-right: 1pt solid #000;
+    font-weight:700;
+    font-size:10pt;
+  }
+  #classSheetsPrint .class-sheet-value{
+    flex:1;
+    padding: 1mm 2mm;
+    display:flex;
+    align-items:center;
+    font-size:9.5pt;
+  }
+  @media print{
+    body.print-class-sheets > *:not(#classSheetsPrint){ display:none !important; }
+    body.print-class-sheets #classSheetsPrint{ display:block !important; }
+    body.print-class-sheets{ padding:0; background:none; }
+  }
+
+  /* Trophy winners list - hidden on screen, shown only when printing */
+  #trophyWinnersPrint{ display:none; }
+  #trophyWinnersPrint h1{ text-align:left; font-family:var(--font-display); font-size:16pt; margin:0 0 4mm; }
+  #trophyWinnersPrint table{ width:100%; border-collapse:collapse; font-size:10.5pt; }
+  #trophyWinnersPrint th{ text-align:left; border-bottom: 1.5pt solid #000; padding: 2mm; }
+  #trophyWinnersPrint td{ border-bottom: 0.75pt solid #999; padding: 2.5mm 2mm; vertical-align:top; }
+  #trophyWinnersPrint td.tw-num{ width:10mm; font-weight:700; }
+  #trophyWinnersPrint td.tw-title strong{ display:block; font-size:11pt; }
+  #trophyWinnersPrint td.tw-title span{ display:block; font-size:9pt; color:#555; margin-top:0.5mm; }
+  #trophyWinnersPrint td.tw-winner{ width:55mm; }
+  #trophyWinnersPrint .tw-runnerup{ font-size:8.5pt; color:#777; font-style:italic; }
+  @media print{
+    body.print-trophy-winners > *:not(#trophyWinnersPrint){ display:none !important; }
+    body.print-trophy-winners #trophyWinnersPrint{ display:block !important; }
+    body.print-trophy-winners{ padding:0; background:none; }
+  }
+
   @media (max-width:480px){
     h1{ font-size:24px; }
     .card{ padding:16px; }
@@ -346,10 +451,12 @@
 <div class="card">
   <h2><span class="step-num">1</span> Entrants</h2>
   <h3>Upload entrants CSV</h3>
-  <p class="small-note">Upload the "Category Matrix" spreadsheet exported from the entries system (Name in the first column — the class columns after it are ignored here). Each entrant's ID matches their actual row number in that spreadsheet (row 2 = ID 2, and so on — ID 1 is never used, since that's the header row). Meant as a single import once entries close. Anyone added after that (e.g. on the day) should go through "Add / edit an entrant manually" below instead.</p>
+  <p class="small-note">Upload the "Category Matrix" spreadsheet exported from the entries system (Name in the first column, one column per class after it). Each entrant's ID matches their actual row number in that spreadsheet (row 2 = ID 2, and so on — ID 1 is never used, since that's the header row). The class columns are also totalled up — see "Print entries-per-category sheet" below. Meant as a single import once entries close. Anyone added after that (e.g. on the day) should go through "Add / edit an entrant manually" below instead.</p>
   <input type="file" id="csvFile" accept=".csv">
   <br>
   <button onclick="openEntrantsPopup()">Show current entrants</button>
+  <button class="backup" onclick="exportEntrantListCSV()">Download entrant list (ID + name)</button>
+  <button class="maroon-btn" onclick="printCategoryCountsSheet()">Print entries-per-category sheet (A4)</button>
 
   <h3>Add / edit an entrant manually</h3>
   <p id="nextIdText" class="small-note"></p>
@@ -393,6 +500,28 @@
 
 <div class="card">
   <h2><span class="step-num">3</span> Class results record</h2>
+  <p class="small-note">Each class below has its own "Print" button for a single filled-in class sheet (matching your paper record sheets). Sheets print two-per-row to fit more on a page, flowing naturally onto further pages as needed.</p>
+  <button class="maroon-btn" onclick="printAllClassSheets()">Print all recorded classes</button>
+
+  <div class="flex-row" style="margin-top:8px;">
+    <label class="fieldlabel" style="margin:0;">Print just one section:</label>
+    <select id="printSectionSelect">
+      <option value="A">Section A — Vegetables</option>
+      <option value="B">Section B — Fruit</option>
+      <option value="C">Section C — Flowers</option>
+      <option value="D">Section D — Pot Plants</option>
+      <option value="E">Section E — Floral Art</option>
+      <option value="F">Section F — Preserves</option>
+      <option value="G">Section G — Cookery</option>
+      <option value="H">Section H — Beverages</option>
+      <option value="J">Section J — Handicrafts</option>
+      <option value="K">Section K — Photography</option>
+      <option value="L">Section L — Children</option>
+      <option value="M">Section M — Family Fun</option>
+    </select>
+    <button class="maroon-btn" onclick="printClassSheetsBySection()">Print this section's recorded classes</button>
+  </div>
+
   <div id="classResults"></div>
 </div>
 
@@ -433,13 +562,17 @@
 
   <div id="trophyList"></div>
 
-  <h3>R.H.S. Banksian Medal — 3-year rule (Show Rule 8)</h3>
-  <p class="small-note">"Competitors can only win this Medal once every three years." Once all of Sections A–D are entered, the Medal's row above will ask you to confirm whether its current leader won it in the last 3 shows. Answer "Yes" and it moves on to the next person down; answer "No" and they're confirmed as the winner.</p>
+  <h3>R.H.S. Banksian Medal — once every 3 years (Show Rule 8)</h3>
+  <p class="small-note">"Competitors can only win this Medal once every three years." Once all of Sections A–D are entered, the Medal's row above will ask you to confirm whether its current leader has won it within the last 2 shows (i.e. too recently to be eligible again this year). Answer "Yes" and it moves on to the next person down; answer "No" and they're confirmed as the winner.</p>
   <div id="banksianConfirmedList"></div>
 
   <h3 style="margin-top:24px;">Prize-giving sheet</h3>
   <p class="small-note">Prints (or saves as PDF) a single sheet listing all 41 trophies in order, with the current winner for each — ready to read out at 4.30pm.</p>
   <button class="maroon-btn" onclick="printCeremonySheet()">Print prize-giving sheet</button>
+
+  <h3 style="margin-top:24px;">Trophy winners list</h3>
+  <p class="small-note">A simpler version matching your existing "Show Challenge Cups Winners" sheet — just cup number, trophy title, and winner, nothing else.</p>
+  <button class="maroon-btn" onclick="printTrophyWinnersList()">Print trophy winners list</button>
 </div>
 
 <div class="card">
@@ -466,6 +599,9 @@
 </div>
 
 <div id="ceremonySheet"></div>
+<div id="categoryCountsSheet"></div>
+<div id="classSheetsPrint"></div>
+<div id="trophyWinnersPrint"></div>
 <div id="toast" class="toast"></div>
 
 <script>
@@ -473,13 +609,15 @@
 let entrants = JSON.parse(localStorage.getItem("bhcsEntrants")) || {};       // { id: {name, gender} }
 let classResults = JSON.parse(localStorage.getItem("bhcsClassResults")) || {}; // { CODE: {first:[], second:[], third:[], hc:[]} }
 let trophyRecords = JSON.parse(localStorage.getItem("bhcsTrophyRecords")) || {}; // { trophyId: {winner, note} } for manual trophies
-let banksianEligibility = JSON.parse(localStorage.getItem("bhcsBanksianEligibility")) || {}; // { entrantId: true (eligible) | false (won in last 3 shows) }
+let banksianEligibility = JSON.parse(localStorage.getItem("bhcsBanksianEligibility")) || {}; // { entrantId: true (eligible) | false (won within the last 2 shows) }
+let categoryEntryCounts = JSON.parse(localStorage.getItem("bhcsCategoryEntryCounts")) || {}; // { classCode: totalEntries } — from the last Category Matrix import
 
 function saveData(){
   localStorage.setItem("bhcsEntrants", JSON.stringify(entrants));
   localStorage.setItem("bhcsClassResults", JSON.stringify(classResults));
   localStorage.setItem("bhcsTrophyRecords", JSON.stringify(trophyRecords));
   localStorage.setItem("bhcsBanksianEligibility", JSON.stringify(banksianEligibility));
+  localStorage.setItem("bhcsCategoryEntryCounts", JSON.stringify(categoryEntryCounts));
 }
 
 /* ---------- Class ranges & trophy definitions (from the 2026 Show Schedule) ---------- */
@@ -675,6 +813,7 @@ function updateClassResults(){
       <div class="result-row">
         <strong>${escapeHtml(classCode)}</strong>
         <button class="reset" style="float:right" onclick="deleteResult('${classCode}')">Delete</button>
+        <button class="maroon-btn" style="float:right" onclick="printClassSheet('${classCode}')">Print</button>
         <br>
         1st: ${labelIds(r.first)}<br>
         2nd: ${labelIds(r.second)}<br>
@@ -723,45 +862,41 @@ function updateLeaderboard(){
 
 /* Returns { winnerIds:[...], stats } or null if nobody scored */
 function trophyLeaders(trophy){
-  const filterSet = new Set(trophy.classes);
-  let stats = computeStats(filterSet);
+  const tiers = computeTiers(new Set(trophy.classes));
+  if(tiers.length === 0) return null;
 
-  if(trophy.gender){
-    Object.keys(stats).forEach(id => {
-      const g = entrants[id]?.gender || "";
-      if(g !== trophy.gender) delete stats[id];
-    });
-  }
+  const top = tiers[0];
+  const runnerUp = tiers[1] ? { ids: tiers[1].ids, stats: tiers[1].stats } : null;
 
-  const entries = Object.entries(stats).filter(([id,s]) => s.points > 0);
-  if(entries.length === 0) return null;
-
-  entries.sort((a,b) =>
-    b[1].points - a[1].points ||
-    b[1].firsts - a[1].firsts ||
-    b[1].seconds - a[1].seconds
-  );
-
-  const top = entries[0][1];
-  const winners = entries.filter(([id,s]) =>
-    s.points === top.points && s.firsts === top.firsts && s.seconds === top.seconds
-  );
-  return { winnerIds: winners.map(([id]) => id), stats: top };
+  return {
+    winnerIds: top.ids,
+    stats: top.stats,
+    runnerUpNote: formatRunnerUpNote(top.stats, runnerUp)
+  };
 }
 
 /* Groups entrants into tied "tiers" (same points, same firsts, same seconds), ranked highest first */
-function computeTiers(classFilterSet){
+/* Groups entrants into tied "tiers", ranked highest first. By default ties are
+   purely on points — Show Rule 8's "most 1st places wins a tie" only applies to
+   the Banksian Medal specifically, so useCountback is only passed as true there;
+   every other trophy treats equal points as a genuine joint result. */
+function computeTiers(classFilterSet, useCountback){
   const stats = computeStats(classFilterSet);
   const entries = Object.entries(stats).filter(([id,s]) => s.points > 0);
-  entries.sort((a,b) =>
-    b[1].points - a[1].points ||
-    b[1].firsts - a[1].firsts ||
-    b[1].seconds - a[1].seconds
-  );
+  entries.sort((a,b) => {
+    if(b[1].points !== a[1].points) return b[1].points - a[1].points;
+    if(useCountback){
+      if(b[1].firsts !== a[1].firsts) return b[1].firsts - a[1].firsts;
+      if(b[1].seconds !== a[1].seconds) return b[1].seconds - a[1].seconds;
+    }
+    return 0;
+  });
   const tiers = [];
   entries.forEach(([id,s]) => {
     const last = tiers[tiers.length - 1];
-    if(last && last.stats.points === s.points && last.stats.firsts === s.firsts && last.stats.seconds === s.seconds){
+    const sameTier = last && last.stats.points === s.points &&
+      (!useCountback || (last.stats.firsts === s.firsts && last.stats.seconds === s.seconds));
+    if(sameTier){
       last.ids.push(id);
     } else {
       tiers.push({ stats: s, ids: [id] });
@@ -770,19 +905,66 @@ function computeTiers(classFilterSet){
   return tiers;
 }
 
+/* How close a margin has to be (in points) before we bother flagging it for the prize-giving readout */
+const CLOSE_TROPHY_MARGIN = 2;
+
+/* Walks tiers below the winning one looking for the first tier with at least one
+   "eligible" runner-up — eligible meaning: for a plain points trophy, anyone; for a
+   gender trophy, someone of the matching gender whose gender is already known; for
+   the Banksian Medal, someone already confirmed eligible. People with not-yet-known
+   status are skipped rather than triggering another prompt — this is a nice-to-know
+   readout, not worth interrupting the flow for. */
+function findRunnerUp(tiers, startIndex, isEligible){
+  for(let i = startIndex; i < tiers.length; i++){
+    const eligibleIds = tiers[i].ids.filter(id => isEligible(id) === true);
+    if(eligibleIds.length > 0){
+      return { ids: eligibleIds, stats: tiers[i].stats };
+    }
+  }
+  return null;
+}
+
+/* Turns a runner-up tier into a short readable note, only when the gap is close
+   enough to be worth mentioning at prize-giving. */
+function formatRunnerUpNote(winnerStats, runnerUp){
+  if(!runnerUp) return null;
+  const margin = winnerStats.points - runnerUp.stats.points;
+  if(margin > CLOSE_TROPHY_MARGIN) return null;
+
+  const names = runnerUp.ids.map(id => entrants[id]?.name || `Unknown (${id})`).join(" & ");
+  if(margin === 0){
+    return `${names} tied on points, but with fewer 1st places`;
+  }
+  const pointWord = margin === 1 ? "point" : "points";
+  return `${names} just ${margin} ${pointWord} behind`;
+}
+
 /* For gender-restricted trophies: walk down the ranked tiers. For the first tier that could
    decide the trophy, if anyone's gender is unknown, ask about exactly those people (and no one
    else) before deciding. If everyone in a tier is known and none match, move to the next tier. */
 function resolveGenderTrophy(trophy){
   const tiers = computeTiers(new Set(trophy.classes));
-  for(const tier of tiers){
+  for(let i = 0; i < tiers.length; i++){
+    const tier = tiers[i];
     const unknown = tier.ids.filter(id => !entrants[id]?.gender);
     if(unknown.length > 0){
       return { status:"needsInput", pendingIds: unknown, stats: tier.stats };
     }
     const matches = tier.ids.filter(id => entrants[id].gender === trophy.gender);
     if(matches.length > 0){
-      return { status:"resolved", winnerIds: matches, stats: tier.stats };
+      // Runner-up must be of the same gender, and their gender must already be
+      // known — we don't trigger another prompt just to work out this note.
+      const runnerUp = findRunnerUp(tiers, i + 1, id => {
+        const g = entrants[id]?.gender;
+        if(!g) return undefined;
+        return g === trophy.gender;
+      });
+      return {
+        status:"resolved",
+        winnerIds: matches,
+        stats: tier.stats,
+        runnerUpNote: formatRunnerUpNote(tier.stats, runnerUp)
+      };
     }
   }
   return { status:"none" };
@@ -794,23 +976,34 @@ function classWinnerIds(classCode){
   return r.first;
 }
 
-/* For the Banksian Medal: walk down the ranked tiers (same points/tie-break as any other points
-   trophy). For the first tier that could decide it, if anyone hasn't been confirmed either way,
-   ask about exactly them. "Yes, won in the last 3 shows" skips them and moves down; "No" confirms
-   them as winner. Once someone's answered, they're remembered — no need to ask again next year
-   unless you clear it. */
+/* For the Banksian Medal specifically: Show Rule 8 says a tie on points is broken
+   by whoever has the most 1st places — no other trophy has this rule, so this is
+   the only place computeTiers is asked to use that countback. For the first tier
+   that could decide it, if anyone hasn't been confirmed either way, ask about
+   exactly them. "Yes, won it too recently" skips them and moves down; "No"
+   confirms them as winner. Once someone's answered, they're remembered — no need
+   to ask again next year unless you clear it. */
 function resolveBanksianTrophy(trophy){
-  const tiers = computeTiers(new Set(trophy.classes));
-  for(const tier of tiers){
+  const tiers = computeTiers(new Set(trophy.classes), true); // Show Rule 8: most 1st places breaks a tie, Banksian only
+  for(let i = 0; i < tiers.length; i++){
+    const tier = tiers[i];
     const unknown = tier.ids.filter(id => banksianEligibility[id] === undefined);
     if(unknown.length > 0){
       return { status:"needsInput", pendingIds: unknown, stats: tier.stats };
     }
     const eligible = tier.ids.filter(id => banksianEligibility[id] === true);
     if(eligible.length > 0){
-      return { status:"resolved", winnerIds: eligible, stats: tier.stats };
+      // Runner-up must already be a confirmed-eligible candidate — someone whose
+      // eligibility hasn't been answered yet doesn't count for this note.
+      const runnerUp = findRunnerUp(tiers, i + 1, id => banksianEligibility[id]);
+      return {
+        status:"resolved",
+        winnerIds: eligible,
+        stats: tier.stats,
+        runnerUpNote: formatRunnerUpNote(tier.stats, runnerUp)
+      };
     }
-    // everyone in this tier already won in the last 3 shows — move to the next tier
+    // everyone in this tier already won it too recently — move to the next tier
   }
   return { status:"none" };
 }
@@ -839,7 +1032,7 @@ function updateTrophyList(){
     let isDone = false;
 
     if(t.gender) tags += `<span class="tag tag-gender">${t.gender === "F" ? "Lady" : "Gentleman"}</span>`;
-    if(t.type === "banksian") tags += `<span class="tag tag-special">3-year rule</span>`;
+    if(t.type === "banksian") tags += `<span class="tag tag-special">Once per 3 years</span>`;
 
     if(t.gender){
       const result = resolveGenderTrophy(t);
@@ -857,6 +1050,7 @@ function updateTrophyList(){
         const names = result.winnerIds.map(entrantLabel).join(" &amp; ");
         const tieNote = result.winnerIds.length > 1 ? " (joint)" : "";
         winnerHtml = `<strong>${names}${tieNote}</strong> — ${result.stats.points} pts`;
+        if(result.runnerUpNote) winnerHtml += `<div class="trophy-runnerup">Runner-up: ${escapeHtml(result.runnerUpNote)}</div>`;
         isDone = true;
       }
     } else if(t.type === "banksian"){
@@ -866,7 +1060,7 @@ function updateTrophyList(){
       } else if(result.status === "needsInput"){
         winnerHtml = result.pendingIds.map(id => `
           <div style="margin-bottom:6px;">
-            Did <strong>${entrantLabel(id)}</strong> (${result.stats.points} pts) win the Banksian Medal in the last 3 shows?
+            Has <strong>${entrantLabel(id)}</strong> (${result.stats.points} pts) already won the Banksian Medal within the last 2 shows? (Rule 8: once every 3 years)
             <button onclick="setBanksianAnswer('${id}', true)">Yes — skip them</button>
             <button onclick="setBanksianAnswer('${id}', false)">No — they're eligible</button>
           </div>
@@ -875,6 +1069,7 @@ function updateTrophyList(){
         const names = result.winnerIds.map(entrantLabel).join(" &amp; ");
         const tieNote = result.winnerIds.length > 1 ? " (joint)" : "";
         winnerHtml = `<strong>${names}${tieNote}</strong> — ${result.stats.points} pts`;
+        if(result.runnerUpNote) winnerHtml += `<div class="trophy-runnerup">Runner-up: ${escapeHtml(result.runnerUpNote)}</div>`;
         isDone = true;
       }
     } else if(t.type === "points"){
@@ -885,6 +1080,7 @@ function updateTrophyList(){
         const names = result.winnerIds.map(entrantLabel).join(" &amp; ");
         const tieNote = result.winnerIds.length > 1 ? " (joint)" : "";
         winnerHtml = `<strong>${names}${tieNote}</strong> — ${result.stats.points} pts`;
+        if(result.runnerUpNote) winnerHtml += `<div class="trophy-runnerup">Runner-up: ${escapeHtml(result.runnerUpNote)}</div>`;
         isDone = true;
       }
     } else if(t.type === "class-winner"){
@@ -936,7 +1132,7 @@ function updateBanksianConfirmedList(){
   }
   el.innerHTML = entries.map(([id, eligible]) => `
     <div class="entrant-row">
-      <span>${entrantLabel(id)} — ${eligible ? "confirmed eligible" : "won in the last 3 shows (excluded)"}</span>
+      <span>${entrantLabel(id)} — ${eligible ? "confirmed eligible" : "won too recently, excluded per the once-every-3-years rule"}</span>
       <button class="reset" style="font-size:12px;padding:5px 9px;" onclick="clearBanksianAnswer('${id}')">Undo</button>
     </div>
   `).join("");
@@ -950,6 +1146,24 @@ function isTrophyDone(t){
   if(t.type === "class-winner") return !!classWinnerIds(t.classes[0]);
   if(t.type === "manual") return !!(trophyRecords[t.id]?.winner?.trim());
   return false;
+}
+
+/* For the print sheets: the same "close margin" note shown in the live app,
+   pulled out on its own so both print layouts can place it next to the winner. */
+function resolveTrophyRunnerUpNote(t){
+  if(t.gender){
+    const result = resolveGenderTrophy(t);
+    return result.status === "resolved" ? result.runnerUpNote : null;
+  }
+  if(t.type === "banksian"){
+    const result = resolveBanksianTrophy(t);
+    return result.status === "resolved" ? result.runnerUpNote : null;
+  }
+  if(t.type === "points"){
+    const result = trophyLeaders(t);
+    return result ? result.runnerUpNote : null;
+  }
+  return null; // class-winner / manual trophies have no points margin to speak of
 }
 
 function updateDashboard(){
@@ -987,7 +1201,7 @@ function resolveTrophyWinnerText(t){
   if(t.type === "banksian"){
     const result = resolveBanksianTrophy(t);
     if(result.status === "none") return "—";
-    if(result.status === "needsInput") return "(needs 3-year rule confirmation — see app)";
+    if(result.status === "needsInput") return "(needs once-every-3-years confirmation — see app)";
     return result.winnerIds.map(id => entrants[id]?.name || `Unknown (${id})`).join(" & ") +
       (result.winnerIds.length > 1 ? " (joint)" : "");
   }
@@ -1115,10 +1329,17 @@ document.getElementById("csvFile").addEventListener("change", function(event){
     const lines = text.split(/\r?\n/);
     let loaded = 0;
 
-    // Row 1 is the header ("Name" + one column per class). The first
-    // actual entrant is on row 2 of the spreadsheet, so they get ID 2 —
-    // matching the real row number, not a plain 1-2-3 count. ID 1 is
-    // simply never used, since there's no row 1 person.
+    // Row 1 is the header: "Name" followed by one column per class. Read
+    // those class codes here so we can also tally how many entries each
+    // one has, alongside building the entrant list.
+    const headerRow = lines[0] ? parseCsvLine(lines[0]) : [];
+    const categoryCodes = headerRow.slice(1).map(c => c.trim()).filter(Boolean);
+    const newCategoryCounts = {};
+    categoryCodes.forEach(code => { newCategoryCounts[code] = 0; });
+
+    // The first actual entrant is on row 2 of the spreadsheet, so they get
+    // ID 2 — matching the real row number, not a plain 1-2-3 count. ID 1
+    // is simply never used, since there's no row 1 person.
     for(let i = 1; i < lines.length; i++){
       if(!lines[i].trim()) continue;
       const row = parseCsvLine(lines[i]);
@@ -1131,7 +1352,21 @@ document.getElementById("csvFile").addEventListener("change", function(event){
       const id = String(rowNumber);
       entrants[id] = { name, gender: "" };
       loaded++;
+
+      // Sum each category column — for normal classes this is just a
+      // count of entrants (values are 0 or 1); for Section H it totals
+      // the actual number of separate entries, since one person's value
+      // there can be more than 1.
+      categoryCodes.forEach((code, idx) => {
+        const raw = row[idx + 1];
+        const value = parseInt(raw, 10);
+        if(!isNaN(value) && value > 0){
+          newCategoryCounts[code] = (newCategoryCounts[code] || 0) + value;
+        }
+      });
     }
+
+    categoryEntryCounts = newCategoryCounts;
 
     saveData();
     updateAll();
@@ -1140,6 +1375,57 @@ document.getElementById("csvFile").addEventListener("change", function(event){
   };
   reader.readAsText(file);
 });
+
+function buildCategoryCountsHTML(){
+  if(Object.keys(categoryEntryCounts).length === 0){
+    return `<h1>Entries per Category</h1><p>No category counts yet — upload the Category Matrix CSV first.</p>`;
+  }
+
+  const codes = Object.keys(categoryEntryCounts).sort(sortClassCodes);
+
+  // Split into a fixed number of columns ourselves, rather than relying on
+  // the browser's CSS column-balancing (which behaves inconsistently
+  // across print engines) — this guarantees a predictable, safe row count
+  // per column regardless of how any particular browser renders it.
+  const NUM_COLUMNS = 4;
+  const perColumn = Math.ceil(codes.length / NUM_COLUMNS);
+  const columnsHtml = [];
+  for(let c = 0; c < NUM_COLUMNS; c++){
+    const slice = codes.slice(c * perColumn, (c + 1) * perColumn);
+    if(slice.length === 0) continue;
+    const rows = slice.map(code =>
+      `<div class="cc-row"><strong>${escapeHtml(code)}</strong><span>${categoryEntryCounts[code]}</span></div>`
+    ).join("");
+    columnsHtml.push(`<div class="cc-column">${rows}</div>`);
+  }
+
+  return `
+    <h1>Broadway Horticultural &amp; Craft Show — Entries per Category</h1>
+    <div class="cc-meta">Generated ${new Date().toLocaleString()}</div>
+    <div class="cc-columns">${columnsHtml.join("")}</div>
+  `;
+}
+
+function printCategoryCountsSheet(){
+  document.getElementById("categoryCountsSheet").innerHTML = buildCategoryCountsHTML();
+  document.body.classList.add("print-category-counts");
+  window.print();
+  setTimeout(() => document.body.classList.remove("print-category-counts"), 500);
+}
+
+function exportEntrantListCSV(){
+  const ids = Object.keys(entrants).map(id => parseInt(id)).filter(id => !isNaN(id)).sort((a,b) => a - b);
+  if(ids.length === 0){
+    alert("No entrants loaded yet.");
+    return;
+  }
+
+  const rows = [["ID", "Name"]];
+  ids.forEach(id => rows.push([id, entrants[id].name]));
+
+  const csv = rows.map(row => row.map(csvEscape).join(",")).join("\n");
+  downloadFile("bhcs-entrant-list.csv", csv, "text/csv");
+}
 
 /* ---------- Backup / restore ---------- */
 function exportBackup(){
@@ -1227,7 +1513,12 @@ function downloadFile(filename, content, type){
 function buildCeremonyHTML(){
   let rows = "";
   trophies.forEach(t => {
-    rows += `<tr><td>${t.id}</td><td>${escapeHtml(t.name)}</td><td>${escapeHtml(t.desc)}</td><td>${escapeHtml(resolveTrophyWinnerText(t))}</td></tr>`;
+    const winnerText = escapeHtml(resolveTrophyWinnerText(t));
+    const runnerUpNote = resolveTrophyRunnerUpNote(t);
+    const winnerCell = runnerUpNote
+      ? `${winnerText}<br><span style="font-size:10px;color:#777;font-style:italic;">(${escapeHtml(runnerUpNote)})</span>`
+      : winnerText;
+    rows += `<tr><td>${t.id}</td><td>${escapeHtml(t.name)}</td><td>${escapeHtml(t.desc)}</td><td>${winnerCell}</td></tr>`;
   });
   return `
     <h1>Broadway Horticultural &amp; Craft Show — Prize-Giving Sheet</h1>
@@ -1244,6 +1535,104 @@ function printCeremonySheet(){
   document.body.classList.add("print-ceremony");
   window.print();
   setTimeout(() => document.body.classList.remove("print-ceremony"), 500);
+}
+
+/* ---------- Per-class record sheets (matching the paper judging sheets) ---------- */
+function buildClassSheetHTML(code){
+  const r = classResults[code];
+  const rows = [
+    ["1", r ? labelIds(r.first) : ""],
+    ["2", r ? labelIds(r.second) : ""],
+    ["3", r ? labelIds(r.third) : ""],
+    ["HC", r ? labelIds(r.hc) : ""]
+  ];
+
+  const rowsHtml = rows.map(([place, value]) => `
+    <div class="class-sheet-row">
+      <div class="class-sheet-place">${place}</div>
+      <div class="class-sheet-value">${value === "—" ? "" : value}</div>
+    </div>
+  `).join("");
+
+  return `
+    <div class="class-sheet">
+      <div class="class-sheet-label">${escapeHtml(code)}</div>
+      <div class="class-sheet-rows">${rowsHtml}</div>
+    </div>
+  `;
+}
+
+function buildClassSheetsHTML(codes){
+  const sheets = codes.map(code => buildClassSheetHTML(code)).join("");
+  return `<div class="class-sheet-grid">${sheets}</div>`;
+}
+
+function printClassSheet(code){
+  document.getElementById("classSheetsPrint").innerHTML = buildClassSheetsHTML([code]);
+  document.body.classList.add("print-class-sheets");
+  window.print();
+  setTimeout(() => document.body.classList.remove("print-class-sheets"), 500);
+}
+
+function printAllClassSheets(){
+  const codes = Object.keys(classResults).sort(sortClassCodes);
+  if(codes.length === 0){
+    alert("No class results recorded yet.");
+    return;
+  }
+  document.getElementById("classSheetsPrint").innerHTML = buildClassSheetsHTML(codes);
+  document.body.classList.add("print-class-sheets");
+  window.print();
+  setTimeout(() => document.body.classList.remove("print-class-sheets"), 500);
+}
+
+function printClassSheetsBySection(){
+  const section = document.getElementById("printSectionSelect").value;
+  const codes = Object.keys(classResults)
+    .filter(code => (code.match(/^[A-Z]+/) || [""])[0] === section)
+    .sort(sortClassCodes);
+
+  if(codes.length === 0){
+    alert(`No recorded classes in Section ${section} yet.`);
+    return;
+  }
+  document.getElementById("classSheetsPrint").innerHTML = buildClassSheetsHTML(codes);
+  document.body.classList.add("print-class-sheets");
+  window.print();
+  setTimeout(() => document.body.classList.remove("print-class-sheets"), 500);
+}
+
+/* ---------- Simplified trophy winners list (matching the physical "Show Challenge Cups Winners" sheet) ---------- */
+function buildTrophyWinnersListHTML(){
+  const rows = trophies.map(t => {
+    const winnerText = escapeHtml(resolveTrophyWinnerText(t));
+    const runnerUpNote = resolveTrophyRunnerUpNote(t);
+    const winnerCell = runnerUpNote
+      ? `${winnerText}<br><span class="tw-runnerup">${escapeHtml(runnerUpNote)}</span>`
+      : winnerText;
+    return `
+    <tr>
+      <td class="tw-num">${t.id}</td>
+      <td class="tw-title"><strong>${escapeHtml(t.name)}</strong><span>${escapeHtml(t.desc)}</span></td>
+      <td class="tw-winner">${winnerCell}</td>
+    </tr>
+  `;
+  }).join("");
+
+  return `
+    <h1>Show Challenge Cups Winners — ${new Date().getFullYear()}</h1>
+    <table>
+      <tr><th>Cup No.</th><th>Title of Cup / Trophy</th><th>Winner</th></tr>
+      ${rows}
+    </table>
+  `;
+}
+
+function printTrophyWinnersList(){
+  document.getElementById("trophyWinnersPrint").innerHTML = buildTrophyWinnersListHTML();
+  document.body.classList.add("print-trophy-winners");
+  window.print();
+  setTimeout(() => document.body.classList.remove("print-trophy-winners"), 500);
 }
 
 /* ---------- Reset ---------- */
